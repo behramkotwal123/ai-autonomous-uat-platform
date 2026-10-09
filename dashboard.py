@@ -3649,6 +3649,95 @@ st.success(
 
 
 # --------------------------------------------------
+# PLATFORM DEVELOPMENT ROADMAP
+# --------------------------------------------------
+
+st.markdown("---")
+st.header("Platform Development Roadmap")
+
+st.caption(
+    "Development milestones are tracked separately from the "
+    "runtime UAT execution pipeline. This roadmap is under "
+    "reconciliation; statuses reflect currently available evidence."
+)
+
+roadmap = [
+    {
+        "phase": "Phase 1",
+        "name": "Scenario Generation",
+        "status": "Component identified"
+    },
+    {
+        "phase": "Phase 2",
+        "name": "Scenario Validation",
+        "status": "Component identified"
+    },
+    {
+        "phase": "Phase 3",
+        "name": "Name to be verified",
+        "status": "Needs verification"
+    },
+    {
+        "phase": "Phase 4",
+        "name": "Name to be verified",
+        "status": "Needs verification"
+    },
+    {
+        "phase": "Phase 5",
+        "name": "Initial Coverage Analysis",
+        "status": "Component identified"
+    },
+    {
+        "phase": "Phase 6",
+        "name": "Gap Test Generation",
+        "status": "Component and tests identified"
+    },
+    {
+        "phase": "Phase 7",
+        "name": "Test Planning and Orchestration",
+        "status": "Components and tests identified"
+    },
+    {
+        "phase": "Phase 8",
+        "name": "Release Readiness and Executive Sign-off",
+        "status": "Components and tests identified"
+    },
+    {
+        "phase": "Phase 9",
+        "name": "UAT Evidence and Audit Trail",
+        "status": "Evidence components identified"
+    },
+    {
+        "phase": "Phase 10",
+        "name": "Dashboard and UAT Intelligence",
+        "status": "Dashboard components identified"
+    },
+    {
+        "phase": "Phase 11",
+        "name": "Run History and Run Comparison",
+        "status": "Dashboard components identified"
+    },
+    {
+        "phase": "Phase 12",
+        "name": "Final Validation and Project Readiness",
+        "status": "Reported complete; needs verification"
+    }
+]
+
+with st.expander("View 12-phase development roadmap", expanded=True):
+
+    st.warning(
+        "This is a provisional roadmap. A component being present "
+        "does not by itself prove that its development phase passed."
+    )
+
+    st.dataframe(
+        roadmap,
+        use_container_width=True,
+        hide_index=True
+    )
+
+# --------------------------------------------------
 # REPORT INFORMATION
 # --------------------------------------------------
 
