@@ -3665,12 +3665,12 @@ roadmap = [
     {
         "phase": "Phase 1",
         "name": "Scenario Generation",
-        "status": "Component identified"
+        "status": "Verified in fresh pipeline run"
     },
     {
         "phase": "Phase 2",
         "name": "Scenario Validation",
-        "status": "Component identified"
+        "status": "Verified in fresh pipeline run"
     },
     {
         "phase": "Phase 3",
@@ -3685,42 +3685,42 @@ roadmap = [
     {
         "phase": "Phase 5",
         "name": "Initial Coverage Analysis",
-        "status": "Component identified"
+        "status": "Verified in fresh pipeline run"
     },
     {
         "phase": "Phase 6",
         "name": "Gap Test Generation",
-        "status": "Component and tests identified"
+        "status": "Pipeline verified; no coverage gaps detected in latest run"
     },
     {
         "phase": "Phase 7",
         "name": "Test Planning and Orchestration",
-        "status": "Components and tests identified"
+        "status": "Verified in fresh pipeline run"
     },
     {
         "phase": "Phase 8",
         "name": "Release Readiness and Executive Sign-off",
-        "status": "Components and tests identified"
+        "status": "Readiness and sign-off passed in fresh pipeline run"
     },
     {
         "phase": "Phase 9",
         "name": "UAT Evidence and Audit Trail",
-        "status": "Evidence components identified"
+        "status": "Fresh-run evidence and reports generated"
     },
     {
         "phase": "Phase 10",
         "name": "Dashboard and UAT Intelligence",
-        "status": "Dashboard components identified"
+        "status": "Dashboard verified; full intelligence features not yet audited"
     },
     {
         "phase": "Phase 11",
         "name": "Run History and Run Comparison",
-        "status": "Dashboard components identified"
+        "status": "Verified: run history, comparisons, and retry visibility tested"
     },
     {
         "phase": "Phase 12",
         "name": "Final Validation and Project Readiness",
-        "status": "Reported complete; needs verification"
+        "status": "UAT and release readiness verified; project-wide completion pending"
     }
 ]
 
@@ -4300,8 +4300,10 @@ else:
             comparison_rows.append({
                 "Scenario ID": scenario_id,
                 "Scenario": scenario_name,
+                "Baseline Initial": str(old_result.get("status") or "UNKNOWN").upper(),
                 "Baseline": old_status,
-                "Comparison": new_status,
+    "Comparison Initial": str(new_result.get("status") or "UNKNOWN").upper(),
+    "Comparison": new_status,
                 "Baseline Retry": (
                     "Yes"
                     if str(
