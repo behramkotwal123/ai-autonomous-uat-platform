@@ -1,0 +1,581 @@
+"""
+UAT Evidence & Audit Trail
+
+Phase 9A:
+Capture structured evidence from completed UAT executions.
+
+This module does NOT execute tests.
+This module does NOT determine PASS/FAIL.
+This module records decisions already made by the
+deterministic UAT execution engine.
+"""
+
+from datetime import datetime
+
+
+def get_scenario_id(scenario):
+    """
+    Return the scenario/test identifier.
+    """
+    if not isinstance(scenario, dict):
+        return ""
+
+    return scenario.get(
+        "id",
+        ""
+    )
+
+
+def get_scenario_name(scenario):
+    """
+    Return the scenario name.
+    """
+    if not isinstance(scenario, dict):
+        return ""
+
+    return (
+        scenario.get("scenario")
+        or scenario.get("description")
+        or ""
+    )
+
+
+def get_category(scenario):
+    """
+    Return the scenario category.
+    """
+    if not isinstance(scenario, dict):
+        return ""
+
+    return scenario.get(
+        "category",
+        ""
+    )
+
+
+def get_priority(scenario):
+    """
+    Return the scenario priority.
+    """
+    if not isinstance(scenario, dict):
+        return ""
+
+    return scenario.get(
+        "priority",
+        ""
+    )
+
+
+def get_endpoint(result, scenario):
+    """
+    Return the executed endpoint.
+    """
+    if isinstance(result, dict):
+        endpoint = result.get(
+            "endpoint"
+        )
+
+        if endpoint:
+            return endpoint
+
+    if isinstance(scenario, dict):
+        return scenario.get(
+            "endpoint",
+            ""
+        )
+
+    return ""
+
+
+def get_method(result, scenario):
+    """
+    Return the executed HTTP method.
+    """
+    if isinstance(result, dict):
+        method = result.get(
+            "method"
+        )
+
+        if method:
+            return method
+
+    if isinstance(scenario, dict):
+        return scenario.get(
+            "method",
+            ""
+        )
+
+    return ""
+
+
+def get_request(result, scenario):
+    """
+    Return the request used for execution.
+    """
+    if isinstance(result, dict):
+        request = result.get(
+            "request"
+        )
+
+        if request is not None:
+            return request
+
+    if isinstance(scenario, dict):
+        return scenario.get(
+            "request",
+            {}
+        )
+
+    return {}
+
+
+def get_expected(result, scenario):
+    """
+    Return the expected response definition.
+    """
+    if isinstance(result, dict):
+        expected = result.get(
+            "expected"
+        )
+
+        if expected is not None:
+            return expected
+
+    if isinstance(scenario, dict):
+        return scenario.get(
+            "expected",
+            {}
+        )
+
+    return {}
+
+
+def get_actual(result):
+    """
+    Return the actual API response.
+    """
+    if not isinstance(result, dict):
+        return {}
+
+    return result.get(
+        "actual",
+        {}
+    )
+
+
+def get_status_code(result):
+    """
+    Return the HTTP status code.
+    """
+    if not isinstance(result, dict):
+        return None
+
+    return result.get(
+        "status_code"
+    )
+
+
+def get_execution_time(result):
+    """
+    Return execution duration.
+    """
+    if not isinstance(result, dict):
+        return 0
+
+    return result.get(
+        "execution_time_seconds",
+        0
+    )
+
+
+def get_initial_status(result):
+    """
+    Return the deterministic status recorded
+    by the execution engine.
+    """
+    if not isinstance(result, dict):
+        return ""
+
+    return result.get(
+        "status",
+        ""
+    )
+
+
+def get_final_status(result):
+    """
+    Return the final outcome.
+
+    PASS_AFTER_RETRY is preserved when supplied by
+    the existing runner.
+
+    Otherwise the initial status is used.
+    """
+    if not isinstance(result, dict):
+        return ""
+
+    return (
+        result.get("final_status")
+        or result.get("status")
+        or ""
+    )
+
+
+def get_failure(result):
+    """
+    Return deterministic failure details.
+    """
+    if not isinstance(result, dict):
+        return None
+
+    return result.get(
+        "failure"
+    )
+
+
+def get_error_type(result):
+    """
+    Return execution error type if present.
+    """
+    if not isinstance(result, dict):
+        return None
+
+    return result.get(
+        "error_type"
+    )
+
+
+def get_failure_classification(result):
+    """
+    Return deterministic failure classification.
+    """
+    if not isinstance(result, dict):
+        return {}
+
+    classification = result.get(
+        "failure_classification"
+    )
+
+    if isinstance(classification, dict):
+        return classification
+
+    return {}
+
+
+def get_ai_diagnosis(result):
+    """
+    Return AI diagnostic information if available.
+    """
+    if not isinstance(result, dict):
+        return None
+
+    return result.get(
+        "ai_diagnosis"
+    )
+
+
+def get_retry_information(result):
+    """
+    Preserve the retry information generated by
+    the existing test runner.
+    """
+    if not isinstance(result, dict):
+        return {
+            "performed": False
+        }
+
+    retry = result.get(
+        "retry"
+    )
+
+    if isinstance(retry, dict):
+        return retry
+
+    return {
+        "performed": False
+    }
+
+
+def get_retry_assessment(result):
+    """
+    Preserve the retry assessment generated by
+    the existing test runner.
+    """
+    if not isinstance(result, dict):
+        return None
+
+    return result.get(
+        "retry_assessment"
+    )
+
+
+def build_evidence_record(
+    scenario,
+    execution_result,
+    evidence_id
+):
+    """
+    Build one immutable-style evidence record
+    from a scenario and its execution result.
+
+    This function records existing UAT decisions.
+    It does not recalculate PASS/FAIL.
+    """
+
+    if not isinstance(scenario, dict):
+        scenario = {}
+
+    if not isinstance(execution_result, dict):
+        execution_result = {}
+
+    failure_classification = get_failure_classification(
+        execution_result
+    )
+
+    record = {
+        "evidence_id": evidence_id,
+
+        "test_id": get_scenario_id(
+            scenario
+        ),
+
+        "scenario": get_scenario_name(
+            scenario
+        ),
+
+        "category": get_category(
+            scenario
+        ),
+
+        "priority": get_priority(
+            scenario
+        ),
+
+        "endpoint": get_endpoint(
+            execution_result,
+            scenario
+        ),
+
+        "method": get_method(
+            execution_result,
+            scenario
+        ),
+
+        "request": get_request(
+            execution_result,
+            scenario
+        ),
+
+        "expected": get_expected(
+            execution_result,
+            scenario
+        ),
+
+        "actual": get_actual(
+            execution_result
+        ),
+
+        "status_code": get_status_code(
+            execution_result
+        ),
+
+        "initial_status": get_initial_status(
+            execution_result
+        ),
+
+        "final_status": get_final_status(
+            execution_result
+        ),
+
+        "execution_time_seconds": get_execution_time(
+            execution_result
+        ),
+
+        "failure": get_failure(
+            execution_result
+        ),
+
+        "error_type": get_error_type(
+            execution_result
+        ),
+
+        "failure_classification": failure_classification,
+
+        "ai_diagnosis": get_ai_diagnosis(
+            execution_result
+        ),
+
+        "retry": get_retry_information(
+            execution_result
+        ),
+
+        "retry_assessment": get_retry_assessment(
+            execution_result
+        ),
+
+        "captured_at": datetime.now().isoformat()
+    }
+
+    return record
+
+
+def build_evidence_records(
+    scenarios,
+    execution_results
+):
+    """
+    Build evidence records for all executed scenarios.
+
+    Scenarios and execution results are matched by position.
+    """
+
+    if not isinstance(scenarios, list):
+        scenarios = []
+
+    if not isinstance(execution_results, list):
+        execution_results = []
+
+    records = []
+
+    for index, result in enumerate(
+        execution_results,
+        start=1
+    ):
+        if index <= len(scenarios):
+            scenario = scenarios[index - 1]
+        else:
+            scenario = {}
+
+        evidence_id = (
+            f"EVID-{index:04d}"
+        )
+
+        record = build_evidence_record(
+            scenario,
+            result,
+            evidence_id
+        )
+
+        records.append(
+            record
+        )
+
+    return records
+
+
+def build_audit_trail(
+    scenarios,
+    execution_results,
+    run_id=None
+):
+    """
+    Build the Phase 9A run-level evidence object.
+    """
+
+    evidence_records = build_evidence_records(
+        scenarios,
+        execution_results
+    )
+
+    if run_id is None:
+        run_id = (
+            "UAT-"
+            + datetime.now().strftime(
+                "%Y%m%d-%H%M%S"
+            )
+        )
+
+    passed = 0
+    failed = 0
+    skipped = 0
+    pass_after_retry = 0
+
+    for record in evidence_records:
+
+        final_status = str(
+            record.get(
+                "final_status",
+                ""
+            )
+        ).upper()
+
+        if final_status == "PASS":
+            passed += 1
+
+        elif final_status == "PASS_AFTER_RETRY":
+            passed += 1
+            pass_after_retry += 1
+
+        elif final_status == "FAIL":
+            failed += 1
+
+        elif final_status == "SKIPPED":
+            skipped += 1
+
+    return {
+        "run_id": run_id,
+
+        "captured_at": datetime.now().isoformat(),
+
+        "total_evidence_records": len(
+            evidence_records
+        ),
+
+        "passed": passed,
+
+        "failed": failed,
+
+        "skipped": skipped,
+
+        "pass_after_retry": pass_after_retry,
+
+        "evidence": evidence_records
+    }
+
+
+def print_evidence_summary(audit_trail):
+    """
+    Print a concise Phase 9A evidence summary.
+    """
+
+    if not isinstance(audit_trail, dict):
+        return
+
+    print()
+    print("=" * 60)
+    print(
+        "             PHASE 9A — UAT EVIDENCE"
+    )
+    print("=" * 60)
+
+    print(
+        f"Run ID               : "
+        f"{audit_trail.get('run_id', '')}"
+    )
+
+    print(
+        f"Evidence records     : "
+        f"{audit_trail.get('total_evidence_records', 0)}"
+    )
+
+    print(
+        f"Passed               : "
+        f"{audit_trail.get('passed', 0)}"
+    )
+
+    print(
+        f"Failed               : "
+        f"{audit_trail.get('failed', 0)}"
+    )
+
+    print(
+        f"Skipped              : "
+        f"{audit_trail.get('skipped', 0)}"
+    )
+
+    print(
+        f"Pass after retry     : "
+        f"{audit_trail.get('pass_after_retry', 0)}"
+    )
+
+    print("=" * 60)

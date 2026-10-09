@@ -1,0 +1,1582 @@
+{
+  "platform": "AI UAT Platform",
+  "run_timestamp": "2026-10-09T12:40:17.121583",
+  "execution_time_seconds": 39.67,
+  "summary": {
+    "scenarios_generated": 10,
+    "scenarios_valid": 10,
+    "tests_selected": 9,
+    "tests_planned": 9,
+    "tests_orchestrated": 9,
+    "tests_executed": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "pass_after_retry": 0,
+    "pass_rate": 100.0
+  },
+  "validation": {
+    "results": [
+      {
+        "id": "AI-UAT-001",
+        "scenario": "Successful booking",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-002",
+        "scenario": "Booking with baggage",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-003",
+        "scenario": "Booking with seat",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-004",
+        "scenario": "Booking with missing passenger name",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-005",
+        "scenario": "Booking with empty passenger name",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-006",
+        "scenario": "Booking with invalid fare",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-007",
+        "scenario": "Booking with invalid baggage",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-008",
+        "scenario": "Booking with invalid seat",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-009",
+        "scenario": "Successful flight search",
+        "valid": true,
+        "errors": []
+      },
+      {
+        "id": "AI-UAT-010",
+        "scenario": "Flight search with no results",
+        "valid": true,
+        "errors": []
+      }
+    ],
+    "valid_count": 10,
+    "invalid_count": 0
+  },
+  "coverage_analysis": {
+    "coverage": {
+      "total_requirements": 12,
+      "assessable_requirements": 11,
+      "covered": 11,
+      "uncovered": 0,
+      "not_specified": 1,
+      "coverage_percentage": 100.0,
+      "requirements": [
+        {
+          "requirement_id": "BOOKING_POSITIVE",
+          "description": "Successful booking",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "BOOKING_BAGGAGE",
+          "description": "Booking with optional baggage",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "BOOKING_SEAT",
+          "description": "Booking with optional seat",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "INVALID_PAX",
+          "description": "Missing or empty passenger name",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "INVALID_FARE",
+          "description": "Unavailable fare",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "INVALID_BAGGAGE",
+          "description": "Unavailable baggage option",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "INVALID_SEAT",
+          "description": "Unavailable seat",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "SEARCH_SUCCESS",
+          "description": "Successful flight search",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "SEARCH_NO_FLIGHTS",
+          "description": "Search with no available flights",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "HTTP_STATUS",
+          "description": "HTTP status code validation",
+          "status": "NOT_SPECIFIED",
+          "covered": false,
+          "reason": "API documentation does not define expected HTTP status codes."
+        },
+        {
+          "requirement_id": "RESPONSE_FIELDS",
+          "description": "Expected response field validation",
+          "status": "COVERED",
+          "covered": true
+        },
+        {
+          "requirement_id": "EXPECTED_VALUES",
+          "description": "Expected field value validation",
+          "status": "COVERED",
+          "covered": true
+        }
+      ]
+    },
+    "ai_analysis": {
+      "overall_assessment": "The deterministic result remains 100% coverage of assessable requirements (11 of 11). One requirement, HTTP_STATUS, is NOT_SPECIFIED rather than uncovered: the API documentation gives no expected HTTP status codes. There are no uncovered documented functional requirements in the supplied results.",
+      "risk_level": "Low",
+      "key_strengths": [
+        "Scenarios cover successful booking and the documented optional baggage and seat selections.",
+        "Scenarios cover each documented booking validation error: INVALID_PAX, INVALID_FARE, INVALID_BAGGAGE, and INVALID_SEAT.",
+        "Scenarios cover both documented flight-search outcomes: results available and NO_FLIGHTS.",
+        "The scenarios assert documented response fields and expected values across the successful cases."
+      ],
+      "coverage_gaps": [
+        {
+          "requirement_id": "HTTP_STATUS",
+          "risk": "Medium",
+          "reason": "This is a specification gap, not a genuine test-coverage gap. The documentation does not define expected HTTP status codes, so the status cannot be asserted without inventing behavior. It must be defined before HTTP status validation can become an executable coverage requirement.",
+          "recommended_test": "First obtain an API contract decision defining the expected HTTP status code or codes for successful booking, booking validation errors, successful search, and NO_FLIGHTS. Once documented, add UAT assertions for those defined codes; do not assume particular codes beforehand."
+        }
+      ],
+      "recommendations": [
+        "Keep the reported deterministic coverage at 100% of assessable requirements and retain HTTP_STATUS as NOT_SPECIFIED until the API contract defines it.",
+        "Resolve the HTTP status-code contract with the API owner, then add tests based on the approved documentation.",
+        "Do not infer values or presence behavior for unselected optional baggage or seat fields beyond what the API documentation specifies."
+      ]
+    }
+  },
+  "gap_test_generation": {
+    "generated_tests": [],
+    "gap_count": 0,
+    "message": "No documented coverage gaps found."
+  },
+  "selected_tests": [
+    {
+      "id": "AI-UAT-001",
+      "scenario": "Successful booking",
+      "category": "Booking - Positive",
+      "priority": "Critical",
+      "description": "Create a booking with a valid passenger name and fare. Verify the booking is confirmed and the response reflects the submitted values.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY"
+      },
+      "selection_priority": "Critical",
+      "selection_reason": "Validates the core booking flow, confirmation status, PNR generation, and key response fields."
+    },
+    {
+      "id": "AI-UAT-002",
+      "scenario": "Booking with baggage",
+      "category": "Booking - Positive",
+      "priority": "High",
+      "description": "Create a booking with valid passenger, fare, and baggage selections. Verify the response reflects the submitted values.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "20KG"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "20KG"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Covers successful booking with the optional baggage field and verifies it is reflected in the response."
+    },
+    {
+      "id": "AI-UAT-003",
+      "scenario": "Booking with seat",
+      "category": "Booking - Positive",
+      "priority": "High",
+      "description": "Create a booking with valid passenger, fare, and seat selections. Verify the response reflects the submitted values.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "12A"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "12A"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Covers successful booking with the optional seat field and verifies it is reflected in the response."
+    },
+    {
+      "id": "AI-UAT-004",
+      "scenario": "Booking with missing passenger name",
+      "category": "Booking - Negative",
+      "priority": "High",
+      "description": "Submit a booking request without the required passenger_name field. Verify the documented invalid passenger error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "fare": "ECONOMY"
+      },
+      "expected": {
+        "error_code": "INVALID_PAX"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Checks the required passenger-name validation for a missing field; the empty-name case tests the same documented error."
+    },
+    {
+      "id": "AI-UAT-006",
+      "scenario": "Booking with invalid fare",
+      "category": "Booking - Negative",
+      "priority": "High",
+      "description": "Submit a booking request with the documented invalid fare value. Verify the documented invalid fare error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_FARE"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Verifies the distinct INVALID_FARE validation for an unavailable fare."
+    },
+    {
+      "id": "AI-UAT-007",
+      "scenario": "Booking with invalid baggage",
+      "category": "Booking - Negative",
+      "priority": "Medium",
+      "description": "Submit a booking request with a valid passenger and fare but an unavailable baggage option. Verify the documented invalid baggage error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_BAGGAGE"
+      },
+      "selection_priority": "Medium",
+      "selection_reason": "Verifies the distinct INVALID_BAGGAGE validation for an unavailable baggage option."
+    },
+    {
+      "id": "AI-UAT-008",
+      "scenario": "Booking with invalid seat",
+      "category": "Booking - Negative",
+      "priority": "Medium",
+      "description": "Submit a booking request with a valid passenger and fare but an unavailable seat. Verify the documented invalid seat error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_SEAT"
+      },
+      "selection_priority": "Medium",
+      "selection_reason": "Verifies the distinct INVALID_SEAT validation for an unavailable seat."
+    },
+    {
+      "id": "AI-UAT-009",
+      "scenario": "Successful flight search",
+      "category": "Flight Search - Positive",
+      "priority": "Critical",
+      "description": "Search for flights on the documented valid route and verify the response identifies the route and contains at least one available flight.",
+      "endpoint": "/search",
+      "method": "GET",
+      "request": {
+        "origin": "BOM",
+        "destination": "DXB"
+      },
+      "expected": {
+        "success": true,
+        "origin": "BOM",
+        "destination": "DXB",
+        "results": "non-empty array"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Validates the successful search response, route fields, and presence of available flights."
+    },
+    {
+      "id": "AI-UAT-010",
+      "scenario": "Flight search with no results",
+      "category": "Flight Search - Negative",
+      "priority": "High",
+      "description": "Search the documented no-flight route and verify the API returns the NO_FLIGHTS error and a non-null message.",
+      "endpoint": "/search",
+      "method": "GET",
+      "request": {
+        "origin": "BOM",
+        "destination": "XYZ"
+      },
+      "expected": {
+        "success": false,
+        "error_code": "NO_FLIGHTS",
+        "message": "present"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Covers the no-flights path and verifies the documented error code and message."
+    }
+  ],
+  "uat_test_plan": {
+    "test_plan": {
+      "objective": "Validate the documented API functionality, business rules, response contracts, and negative scenarios before UAT sign-off.",
+      "total_scenarios": 10,
+      "tests_selected": 9,
+      "coverage_percentage": 100.0,
+      "total_requirements": 12,
+      "covered_requirements": 11,
+      "uncovered_requirements": 0,
+      "not_specified_requirements": 1,
+      "risk_level": "Low",
+      "execution_order": [
+        "AI-UAT-009",
+        "AI-UAT-010",
+        "AI-UAT-001",
+        "AI-UAT-002",
+        "AI-UAT-003",
+        "AI-UAT-004",
+        "AI-UAT-006",
+        "AI-UAT-007",
+        "AI-UAT-008"
+      ],
+      "tests": [
+        {
+          "execution_order": 1,
+          "id": "AI-UAT-009",
+          "scenario": "Successful flight search",
+          "category": "Flight Search - Positive",
+          "priority": "Critical",
+          "method": "GET",
+          "endpoint": "/search",
+          "selection_reason": "Validates the successful search response, route fields, and presence of available flights.",
+          "coverage_requirements": [],
+          "expected_outcome": "API should return a successful response."
+        },
+        {
+          "execution_order": 2,
+          "id": "AI-UAT-010",
+          "scenario": "Flight search with no results",
+          "category": "Flight Search - Negative",
+          "priority": "High",
+          "method": "GET",
+          "endpoint": "/search",
+          "selection_reason": "Covers the no-flights path and verifies the documented error code and message.",
+          "coverage_requirements": [],
+          "expected_outcome": "API should return error NO_FLIGHTS."
+        },
+        {
+          "execution_order": 3,
+          "id": "AI-UAT-001",
+          "scenario": "Successful booking",
+          "category": "Booking - Positive",
+          "priority": "Critical",
+          "method": "POST",
+          "endpoint": "/booking",
+          "selection_reason": "Validates the core booking flow, confirmation status, PNR generation, and key response fields.",
+          "coverage_requirements": [],
+          "expected_outcome": "API should successfully complete the operation with status CONFIRMED."
+        },
+        {
+          "execution_order": 4,
+          "id": "AI-UAT-002",
+          "scenario": "Booking with baggage",
+          "category": "Booking - Positive",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "selection_reason": "Covers successful booking with the optional baggage field and verifies it is reflected in the response.",
+          "coverage_requirements": [],
+          "expected_outcome": "API should successfully complete the operation with status CONFIRMED."
+        },
+        {
+          "execution_order": 5,
+          "id": "AI-UAT-003",
+          "scenario": "Booking with seat",
+          "category": "Booking - Positive",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "selection_reason": "Covers successful booking with the optional seat field and verifies it is reflected in the response.",
+          "coverage_requirements": [],
+          "expected_outcome": "API should successfully complete the operation with status CONFIRMED."
+        },
+        {
+          "execution_order": 6,
+          "id": "AI-UAT-004",
+          "scenario": "Booking with missing passenger name",
+          "category": "Booking - Negative",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "selection_reason": "Checks the required passenger-name validation for a missing field; the empty-name case tests the same documented error.",
+          "coverage_requirements": [
+            "INVALID_PAX"
+          ],
+          "expected_outcome": "API should return error INVALID_PAX."
+        },
+        {
+          "execution_order": 7,
+          "id": "AI-UAT-006",
+          "scenario": "Booking with invalid fare",
+          "category": "Booking - Negative",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "selection_reason": "Verifies the distinct INVALID_FARE validation for an unavailable fare.",
+          "coverage_requirements": [
+            "INVALID_FARE"
+          ],
+          "expected_outcome": "API should return error INVALID_FARE."
+        },
+        {
+          "execution_order": 8,
+          "id": "AI-UAT-007",
+          "scenario": "Booking with invalid baggage",
+          "category": "Booking - Negative",
+          "priority": "Medium",
+          "method": "POST",
+          "endpoint": "/booking",
+          "selection_reason": "Verifies the distinct INVALID_BAGGAGE validation for an unavailable baggage option.",
+          "coverage_requirements": [
+            "INVALID_BAGGAGE"
+          ],
+          "expected_outcome": "API should return error INVALID_BAGGAGE."
+        },
+        {
+          "execution_order": 9,
+          "id": "AI-UAT-008",
+          "scenario": "Booking with invalid seat",
+          "category": "Booking - Negative",
+          "priority": "Medium",
+          "method": "POST",
+          "endpoint": "/booking",
+          "selection_reason": "Verifies the distinct INVALID_SEAT validation for an unavailable seat.",
+          "coverage_requirements": [
+            "INVALID_SEAT"
+          ],
+          "expected_outcome": "API should return error INVALID_SEAT."
+        }
+      ],
+      "recommendation": "Documented coverage is complete and the planned tests are ready for execution."
+    }
+  },
+  "uat_orchestration": {
+    "execution_strategy": {
+      "mode": "SEQUENTIAL",
+      "total_tests": 9,
+      "expected_executions": 9,
+      "risk_level": "Low",
+      "failure_policy": "CONTINUE",
+      "stop_condition": "DO_NOT_STOP_ON_SINGLE_TEST_FAILURE",
+      "retry_policy": "USE_EXISTING_TEST_RUNNER_RETRY_POLICY",
+      "execution_order": [
+        {
+          "execution_order": 1,
+          "id": "AI-UAT-009",
+          "scenario": "Successful flight search",
+          "priority": "Critical",
+          "method": "GET",
+          "endpoint": "/search",
+          "coverage_requirements": []
+        },
+        {
+          "execution_order": 2,
+          "id": "AI-UAT-010",
+          "scenario": "Flight search with no results",
+          "priority": "High",
+          "method": "GET",
+          "endpoint": "/search",
+          "coverage_requirements": []
+        },
+        {
+          "execution_order": 3,
+          "id": "AI-UAT-001",
+          "scenario": "Successful booking",
+          "priority": "Critical",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": []
+        },
+        {
+          "execution_order": 4,
+          "id": "AI-UAT-002",
+          "scenario": "Booking with baggage",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": []
+        },
+        {
+          "execution_order": 5,
+          "id": "AI-UAT-003",
+          "scenario": "Booking with seat",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": []
+        },
+        {
+          "execution_order": 6,
+          "id": "AI-UAT-004",
+          "scenario": "Booking with missing passenger name",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": [
+            "INVALID_PAX"
+          ]
+        },
+        {
+          "execution_order": 7,
+          "id": "AI-UAT-006",
+          "scenario": "Booking with invalid fare",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": [
+            "INVALID_FARE"
+          ]
+        },
+        {
+          "execution_order": 8,
+          "id": "AI-UAT-007",
+          "scenario": "Booking with invalid baggage",
+          "priority": "Medium",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": [
+            "INVALID_BAGGAGE"
+          ]
+        },
+        {
+          "execution_order": 9,
+          "id": "AI-UAT-008",
+          "scenario": "Booking with invalid seat",
+          "priority": "Medium",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": [
+            "INVALID_SEAT"
+          ]
+        }
+      ],
+      "batches": [
+        {
+          "batch_id": 1,
+          "tests": [
+            {
+              "execution_order": 1,
+              "id": "AI-UAT-009",
+              "scenario": "Successful flight search",
+              "priority": "Critical",
+              "method": "GET",
+              "endpoint": "/search",
+              "coverage_requirements": []
+            },
+            {
+              "execution_order": 2,
+              "id": "AI-UAT-010",
+              "scenario": "Flight search with no results",
+              "priority": "High",
+              "method": "GET",
+              "endpoint": "/search",
+              "coverage_requirements": []
+            }
+          ]
+        },
+        {
+          "batch_id": 2,
+          "tests": [
+            {
+              "execution_order": 3,
+              "id": "AI-UAT-001",
+              "scenario": "Successful booking",
+              "priority": "Critical",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": []
+            },
+            {
+              "execution_order": 4,
+              "id": "AI-UAT-002",
+              "scenario": "Booking with baggage",
+              "priority": "High",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": []
+            },
+            {
+              "execution_order": 5,
+              "id": "AI-UAT-003",
+              "scenario": "Booking with seat",
+              "priority": "High",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": []
+            },
+            {
+              "execution_order": 6,
+              "id": "AI-UAT-004",
+              "scenario": "Booking with missing passenger name",
+              "priority": "High",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": [
+                "INVALID_PAX"
+              ]
+            },
+            {
+              "execution_order": 7,
+              "id": "AI-UAT-006",
+              "scenario": "Booking with invalid fare",
+              "priority": "High",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": [
+                "INVALID_FARE"
+              ]
+            },
+            {
+              "execution_order": 8,
+              "id": "AI-UAT-007",
+              "scenario": "Booking with invalid baggage",
+              "priority": "Medium",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": [
+                "INVALID_BAGGAGE"
+              ]
+            },
+            {
+              "execution_order": 9,
+              "id": "AI-UAT-008",
+              "scenario": "Booking with invalid seat",
+              "priority": "Medium",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": [
+                "INVALID_SEAT"
+              ]
+            }
+          ]
+        }
+      ],
+      "recommendation": "Execute 9 planned tests in 2 controlled batches. Continue execution after individual test failures and rely on the existing runner for retries, diagnosis and deterministic PASS/FAIL determination."
+    }
+  },
+  "selected_scenarios": [
+    {
+      "id": "AI-UAT-001",
+      "scenario": "Successful booking",
+      "category": "Booking - Positive",
+      "priority": "Critical",
+      "description": "Create a booking with a valid passenger name and fare. Verify the booking is confirmed and the response reflects the submitted values.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY"
+      },
+      "selection_priority": "Critical",
+      "selection_reason": "Validates the core booking flow, confirmation status, PNR generation, and key response fields."
+    },
+    {
+      "id": "AI-UAT-002",
+      "scenario": "Booking with baggage",
+      "category": "Booking - Positive",
+      "priority": "High",
+      "description": "Create a booking with valid passenger, fare, and baggage selections. Verify the response reflects the submitted values.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "20KG"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "20KG"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Covers successful booking with the optional baggage field and verifies it is reflected in the response."
+    },
+    {
+      "id": "AI-UAT-003",
+      "scenario": "Booking with seat",
+      "category": "Booking - Positive",
+      "priority": "High",
+      "description": "Create a booking with valid passenger, fare, and seat selections. Verify the response reflects the submitted values.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "12A"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "12A"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Covers successful booking with the optional seat field and verifies it is reflected in the response."
+    },
+    {
+      "id": "AI-UAT-004",
+      "scenario": "Booking with missing passenger name",
+      "category": "Booking - Negative",
+      "priority": "High",
+      "description": "Submit a booking request without the required passenger_name field. Verify the documented invalid passenger error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "fare": "ECONOMY"
+      },
+      "expected": {
+        "error_code": "INVALID_PAX"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Checks the required passenger-name validation for a missing field; the empty-name case tests the same documented error."
+    },
+    {
+      "id": "AI-UAT-006",
+      "scenario": "Booking with invalid fare",
+      "category": "Booking - Negative",
+      "priority": "High",
+      "description": "Submit a booking request with the documented invalid fare value. Verify the documented invalid fare error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_FARE"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Verifies the distinct INVALID_FARE validation for an unavailable fare."
+    },
+    {
+      "id": "AI-UAT-007",
+      "scenario": "Booking with invalid baggage",
+      "category": "Booking - Negative",
+      "priority": "Medium",
+      "description": "Submit a booking request with a valid passenger and fare but an unavailable baggage option. Verify the documented invalid baggage error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_BAGGAGE"
+      },
+      "selection_priority": "Medium",
+      "selection_reason": "Verifies the distinct INVALID_BAGGAGE validation for an unavailable baggage option."
+    },
+    {
+      "id": "AI-UAT-008",
+      "scenario": "Booking with invalid seat",
+      "category": "Booking - Negative",
+      "priority": "Medium",
+      "description": "Submit a booking request with a valid passenger and fare but an unavailable seat. Verify the documented invalid seat error is returned.",
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_SEAT"
+      },
+      "selection_priority": "Medium",
+      "selection_reason": "Verifies the distinct INVALID_SEAT validation for an unavailable seat."
+    },
+    {
+      "id": "AI-UAT-009",
+      "scenario": "Successful flight search",
+      "category": "Flight Search - Positive",
+      "priority": "Critical",
+      "description": "Search for flights on the documented valid route and verify the response identifies the route and contains at least one available flight.",
+      "endpoint": "/search",
+      "method": "GET",
+      "request": {
+        "origin": "BOM",
+        "destination": "DXB"
+      },
+      "expected": {
+        "success": true,
+        "origin": "BOM",
+        "destination": "DXB",
+        "results": "non-empty array"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Validates the successful search response, route fields, and presence of available flights."
+    },
+    {
+      "id": "AI-UAT-010",
+      "scenario": "Flight search with no results",
+      "category": "Flight Search - Negative",
+      "priority": "High",
+      "description": "Search the documented no-flight route and verify the API returns the NO_FLIGHTS error and a non-null message.",
+      "endpoint": "/search",
+      "method": "GET",
+      "request": {
+        "origin": "BOM",
+        "destination": "XYZ"
+      },
+      "expected": {
+        "success": false,
+        "error_code": "NO_FLIGHTS",
+        "message": "present"
+      },
+      "selection_priority": "High",
+      "selection_reason": "Covers the no-flights path and verifies the documented error code and message."
+    }
+  ],
+  "execution_results": [
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY"
+      },
+      "actual": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "DEMO123",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": null,
+        "seat": null
+      },
+      "execution_time_seconds": 0.08
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "20KG"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "20KG"
+      },
+      "actual": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "DEMO123",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "20KG",
+        "seat": null
+      },
+      "execution_time_seconds": 0.01
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "12A"
+      },
+      "expected": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "present",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "12A"
+      },
+      "actual": {
+        "success": true,
+        "booking_status": "CONFIRMED",
+        "pnr": "DEMO123",
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": null,
+        "seat": "12A"
+      },
+      "execution_time_seconds": 0.03
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "fare": "ECONOMY"
+      },
+      "expected": {
+        "error_code": "INVALID_PAX"
+      },
+      "actual": {
+        "success": false,
+        "error_code": "INVALID_PAX",
+        "message": "Passenger name is required"
+      },
+      "execution_time_seconds": 0.02
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_FARE"
+      },
+      "actual": {
+        "success": false,
+        "error_code": "INVALID_FARE",
+        "message": "The selected fare is no longer available"
+      },
+      "execution_time_seconds": 0.02
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "baggage": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_BAGGAGE"
+      },
+      "actual": {
+        "success": false,
+        "error_code": "INVALID_BAGGAGE",
+        "message": "The selected baggage option is unavailable"
+      },
+      "execution_time_seconds": 0.02
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/booking",
+      "method": "POST",
+      "request": {
+        "passenger_name": "Behram",
+        "fare": "ECONOMY",
+        "seat": "INVALID"
+      },
+      "expected": {
+        "error_code": "INVALID_SEAT"
+      },
+      "actual": {
+        "success": false,
+        "error_code": "INVALID_SEAT",
+        "message": "The selected seat is unavailable"
+      },
+      "execution_time_seconds": 0.02
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/search",
+      "method": "GET",
+      "request": {
+        "origin": "BOM",
+        "destination": "DXB"
+      },
+      "expected": {
+        "success": true,
+        "origin": "BOM",
+        "destination": "DXB",
+        "results": "non-empty array"
+      },
+      "actual": {
+        "success": true,
+        "origin": "BOM",
+        "destination": "DXB",
+        "results": [
+          {
+            "flight_number": "AI101",
+            "airline": "Air India",
+            "departure": "08:00",
+            "arrival": "10:30"
+          },
+          {
+            "flight_number": "EK501",
+            "airline": "Emirates",
+            "departure": "10:15",
+            "arrival": "12:45"
+          }
+        ]
+      },
+      "execution_time_seconds": 0.02
+    },
+    {
+      "status": "PASS",
+      "attempt": 1,
+      "status_code": 200,
+      "endpoint": "/search",
+      "method": "GET",
+      "request": {
+        "origin": "BOM",
+        "destination": "XYZ"
+      },
+      "expected": {
+        "success": false,
+        "error_code": "NO_FLIGHTS",
+        "message": "present"
+      },
+      "actual": {
+        "success": false,
+        "error_code": "NO_FLIGHTS",
+        "message": "No flights available for this route"
+      },
+      "execution_time_seconds": 0.02
+    }
+  ],
+  "uat_evidence": {
+    "run_id": "UAT-20261009-124017",
+    "captured_at": "2026-10-09T12:40:17.115436",
+    "total_evidence_records": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "pass_after_retry": 0,
+    "evidence": [
+      {
+        "evidence_id": "EVID-0001",
+        "test_id": "AI-UAT-001",
+        "scenario": "Successful booking",
+        "category": "Booking - Positive",
+        "priority": "Critical",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+          "passenger_name": "Behram",
+          "fare": "ECONOMY"
+        },
+        "expected": {
+          "success": true,
+          "booking_status": "CONFIRMED",
+          "pnr": "present",
+          "passenger_name": "Behram",
+          "fare": "ECONOMY"
+        },
+        "actual": {
+          "success": true,
+          "booking_status": "CONFIRMED",
+          "pnr": "DEMO123",
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "baggage": null,
+          "seat": null
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.08,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115307"
+      },
+      {
+        "evidence_id": "EVID-0002",
+        "test_id": "AI-UAT-002",
+        "scenario": "Booking with baggage",
+        "category": "Booking - Positive",
+        "priority": "High",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "baggage": "20KG"
+        },
+        "expected": {
+          "success": true,
+          "booking_status": "CONFIRMED",
+          "pnr": "present",
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "baggage": "20KG"
+        },
+        "actual": {
+          "success": true,
+          "booking_status": "CONFIRMED",
+          "pnr": "DEMO123",
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "baggage": "20KG",
+          "seat": null
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.01,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115332"
+      },
+      {
+        "evidence_id": "EVID-0003",
+        "test_id": "AI-UAT-003",
+        "scenario": "Booking with seat",
+        "category": "Booking - Positive",
+        "priority": "High",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "seat": "12A"
+        },
+        "expected": {
+          "success": true,
+          "booking_status": "CONFIRMED",
+          "pnr": "present",
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "seat": "12A"
+        },
+        "actual": {
+          "success": true,
+          "booking_status": "CONFIRMED",
+          "pnr": "DEMO123",
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "baggage": null,
+          "seat": "12A"
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.03,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115344"
+      },
+      {
+        "evidence_id": "EVID-0004",
+        "test_id": "AI-UAT-004",
+        "scenario": "Booking with missing passenger name",
+        "category": "Booking - Negative",
+        "priority": "High",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+          "fare": "ECONOMY"
+        },
+        "expected": {
+          "error_code": "INVALID_PAX"
+        },
+        "actual": {
+          "success": false,
+          "error_code": "INVALID_PAX",
+          "message": "Passenger name is required"
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.02,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115353"
+      },
+      {
+        "evidence_id": "EVID-0005",
+        "test_id": "AI-UAT-006",
+        "scenario": "Booking with invalid fare",
+        "category": "Booking - Negative",
+        "priority": "High",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+          "passenger_name": "Behram",
+          "fare": "INVALID"
+        },
+        "expected": {
+          "error_code": "INVALID_FARE"
+        },
+        "actual": {
+          "success": false,
+          "error_code": "INVALID_FARE",
+          "message": "The selected fare is no longer available"
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.02,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115361"
+      },
+      {
+        "evidence_id": "EVID-0006",
+        "test_id": "AI-UAT-007",
+        "scenario": "Booking with invalid baggage",
+        "category": "Booking - Negative",
+        "priority": "Medium",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "baggage": "INVALID"
+        },
+        "expected": {
+          "error_code": "INVALID_BAGGAGE"
+        },
+        "actual": {
+          "success": false,
+          "error_code": "INVALID_BAGGAGE",
+          "message": "The selected baggage option is unavailable"
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.02,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115369"
+      },
+      {
+        "evidence_id": "EVID-0007",
+        "test_id": "AI-UAT-008",
+        "scenario": "Booking with invalid seat",
+        "category": "Booking - Negative",
+        "priority": "Medium",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+          "passenger_name": "Behram",
+          "fare": "ECONOMY",
+          "seat": "INVALID"
+        },
+        "expected": {
+          "error_code": "INVALID_SEAT"
+        },
+        "actual": {
+          "success": false,
+          "error_code": "INVALID_SEAT",
+          "message": "The selected seat is unavailable"
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.02,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115376"
+      },
+      {
+        "evidence_id": "EVID-0008",
+        "test_id": "AI-UAT-009",
+        "scenario": "Successful flight search",
+        "category": "Flight Search - Positive",
+        "priority": "Critical",
+        "endpoint": "/search",
+        "method": "GET",
+        "request": {
+          "origin": "BOM",
+          "destination": "DXB"
+        },
+        "expected": {
+          "success": true,
+          "origin": "BOM",
+          "destination": "DXB",
+          "results": "non-empty array"
+        },
+        "actual": {
+          "success": true,
+          "origin": "BOM",
+          "destination": "DXB",
+          "results": [
+            {
+              "flight_number": "AI101",
+              "airline": "Air India",
+              "departure": "08:00",
+              "arrival": "10:30"
+            },
+            {
+              "flight_number": "EK501",
+              "airline": "Emirates",
+              "departure": "10:15",
+              "arrival": "12:45"
+            }
+          ]
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.02,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115384"
+      },
+      {
+        "evidence_id": "EVID-0009",
+        "test_id": "AI-UAT-010",
+        "scenario": "Flight search with no results",
+        "category": "Flight Search - Negative",
+        "priority": "High",
+        "endpoint": "/search",
+        "method": "GET",
+        "request": {
+          "origin": "BOM",
+          "destination": "XYZ"
+        },
+        "expected": {
+          "success": false,
+          "error_code": "NO_FLIGHTS",
+          "message": "present"
+        },
+        "actual": {
+          "success": false,
+          "error_code": "NO_FLIGHTS",
+          "message": "No flights available for this route"
+        },
+        "status_code": 200,
+        "initial_status": "PASS",
+        "final_status": "PASS",
+        "execution_time_seconds": 0.02,
+        "failure": null,
+        "error_type": null,
+        "failure_classification": {},
+        "ai_diagnosis": null,
+        "retry": {
+          "performed": false
+        },
+        "retry_assessment": null,
+        "captured_at": "2026-10-09T12:40:17.115397"
+      }
+    ]
+  },
+  "release_readiness": {
+    "release_readiness": {
+      "status": "READY",
+      "decision": "APPROVE",
+      "risk_level": "LOW",
+      "execution_completion": 100.0,
+      "planned_tests": 9,
+      "executed_tests": 9,
+      "passed_tests": 9,
+      "failed_tests": 0,
+      "skipped_tests": 0,
+      "error_tests": 0,
+      "pass_rate": 100.0,
+      "critical_failures": 0,
+      "unresolved_failures": 0,
+      "coverage_percentage": 100.0,
+      "coverage_gaps": 0,
+      "not_specified_requirements": 1,
+      "retries": 0,
+      "pass_after_retry": 0,
+      "orchestration_consistent": true,
+      "reasons": [],
+      "recommendations": [
+        "UAT execution and documented coverage satisfy the release readiness criteria."
+      ],
+      "critical_failure_details": [],
+      "unresolved_failure_details": []
+    }
+  },
+  "uat_signoff_report": {
+    "uat_signoff_report": {
+      "executive_summary": {
+        "summary": "UAT execution completed successfully with 9 of 9 planned tests passed. Documented coverage is 100.0% with no unresolved failures or critical issues. The UAT cycle is ready for release sign-off.",
+        "status": "READY",
+        "decision": "APPROVE",
+        "risk_level": "LOW",
+        "planned_tests": 9,
+        "executed_tests": 9,
+        "passed_tests": 9,
+        "failed_tests": 0,
+        "skipped_tests": 0,
+        "pass_rate": 100.0,
+        "coverage_percentage": 100.0,
+        "coverage_gaps": 0,
+        "critical_failures": 0,
+        "unresolved_failures": 0,
+        "test_plan_objective": "Validate the documented API functionality, business rules, response contracts, and negative scenarios before UAT sign-off.",
+        "generated_at": "2026-10-09T12:40:17.118736"
+      },
+      "signoff_statement": {
+        "statement": "Based on the completed UAT execution, documented coverage, failure analysis and release-readiness assessment, the solution is READY for UAT sign-off and release approval.",
+        "status": "READY",
+        "decision": "APPROVE",
+        "risk_level": "LOW"
+      },
+      "key_findings": [
+        "9 of 9 planned UAT tests were executed.",
+        "9 tests passed and 0 tests failed.",
+        "No UAT tests were skipped.",
+        "Documented requirement coverage is 100.0%.",
+        "No documented coverage gaps remain.",
+        "No critical failures were identified.",
+        "No unresolved execution failures remain."
+      ],
+      "actions": [
+        "UAT execution and documented coverage satisfy the release readiness criteria."
+      ]
+    }
+  },
+  "status": "PASS"
+}

@@ -1,0 +1,778 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>AI UAT Platform - UAT Sign-off Report</title>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>AI UAT Platform — UAT Sign-off Report</title>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    color: #222;
+}
+
+h1 {
+    margin-bottom: 5px;
+}
+
+h2 {
+    margin-top: 35px;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 6px;
+}
+
+.status {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.metric {
+    display: inline-block;
+    min-width: 150px;
+    padding: 12px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background: #f2f2f2;
+}
+
+ul {
+    line-height: 1.7;
+}
+
+.small {
+    color: #666;
+    font-size: 12px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>AI UAT Platform</h1>
+
+<p>
+UAT Execution &amp; Release Sign-off Report
+</p>
+
+<p class="small">
+<strong>Generated:</strong>
+2026-10-09T12:40:17.121583
+</p>
+
+<p class="small">
+<strong>Run ID:</strong>
+UAT-20261009-124017
+</p>
+
+<div class="card">
+
+<h2>Executive Sign-off</h2>
+
+<div class="status">
+READY
+</div>
+
+<p>
+<strong>Recommendation:</strong>
+APPROVE
+</p>
+
+<p>
+<strong>Risk:</strong>
+LOW
+</p>
+
+<p>
+UAT execution completed successfully with 9 of 9 planned tests passed. Documented coverage is 100.0% with no unresolved failures or critical issues. The UAT cycle is ready for release sign-off.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Sign-off Statement</h2>
+
+<p>
+Based on the completed UAT execution, documented coverage, failure analysis and release-readiness assessment, the solution is READY for UAT sign-off and release approval.
+</p>
+
+</div>
+
+<h2>Execution Summary</h2>
+
+<div class="metric">
+<strong>Planned</strong><br>
+9
+</div>
+
+<div class="metric">
+<strong>Passed</strong><br>
+9
+</div>
+
+<div class="metric">
+<strong>Failed</strong><br>
+0
+</div>
+
+<div class="metric">
+<strong>Skipped</strong><br>
+0
+</div>
+
+<div class="metric">
+<strong>Pass Rate</strong><br>
+100.0%
+</div>
+
+<div class="metric">
+<strong>Retries</strong><br>
+0
+</div>
+
+<h2>Coverage</h2>
+
+<div class="card">
+
+<p>
+<strong>Requirements:</strong>
+12
+</p>
+
+<p>
+<strong>Covered:</strong>
+11
+</p>
+
+<p>
+<strong>Uncovered:</strong>
+0
+</p>
+
+<p>
+<strong>Not specified:</strong>
+1
+</p>
+
+<p>
+<strong>Coverage:</strong>
+100.0%
+</p>
+
+</div>
+
+<h2>Key Findings</h2>
+
+<div class="card">
+
+<ul>
+<li>9 of 9 planned UAT tests were executed.</li><li>9 tests passed and 0 tests failed.</li><li>No UAT tests were skipped.</li><li>Documented requirement coverage is 100.0%.</li><li>No documented coverage gaps remain.</li><li>No critical failures were identified.</li><li>No unresolved execution failures remain.</li>
+</ul>
+
+</div>
+
+<h2>Actions</h2>
+
+<div class="card">
+
+<ul>
+<li>UAT execution and documented coverage satisfy the release readiness criteria.</li>
+</ul>
+
+</div>
+
+<h2>UAT Test Plan</h2>
+
+<div class="card">
+
+<p>
+<strong>Scenarios generated:</strong>
+10
+</p>
+
+<p>
+<strong>Tests selected:</strong>
+9
+</p>
+
+<p>
+<strong>Tests planned for execution:</strong>
+9
+</p>
+
+<p>
+<strong>Tests selected:</strong>
+9
+</p>
+
+<p>
+<strong>Plan coverage:</strong>
+100.0%
+</p>
+
+<p>
+<strong>Plan risk:</strong>
+Low
+</p>
+
+</div>
+
+<h2>UAT Orchestration</h2>
+
+<div class="card">
+
+<p>
+<strong>Execution mode:</strong>
+SEQUENTIAL
+</p>
+
+<p>
+<strong>Tests orchestrated:</strong>
+9
+</p>
+
+<p>
+<strong>Expected executions:</strong>
+9
+</p>
+
+<p>
+<strong>Batches:</strong>
+2
+</p>
+
+</div>
+
+<h2>Gap Test Generation</h2>
+
+<div class="card">
+
+<p>
+<strong>Gaps detected:</strong>
+0
+</p>
+
+<p>
+<strong>Tests generated:</strong>
+0
+</p>
+
+</div>
+
+<h2>Execution Results</h2>
+
+<table>
+
+<tr>
+<th>ID</th>
+<th>Scenario</th>
+<th>Endpoint</th>
+<th>Status</th>
+</tr>
+
+
+        <tr>
+            <td>AI-UAT-001</td>
+            <td>Successful booking</td>
+            <td>/booking</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-002</td>
+            <td>Booking with baggage</td>
+            <td>/booking</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-003</td>
+            <td>Booking with seat</td>
+            <td>/booking</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-004</td>
+            <td>Booking with missing passenger name</td>
+            <td>/booking</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-006</td>
+            <td>Booking with invalid fare</td>
+            <td>/booking</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-007</td>
+            <td>Booking with invalid baggage</td>
+            <td>/booking</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-008</td>
+            <td>Booking with invalid seat</td>
+            <td>/booking</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-009</td>
+            <td>Successful flight search</td>
+            <td>/search</td>
+            <td>PASS</td>
+        </tr>
+        
+        <tr>
+            <td>AI-UAT-010</td>
+            <td>Flight search with no results</td>
+            <td>/search</td>
+            <td>PASS</td>
+        </tr>
+        
+
+</table>
+
+<h2>UAT Evidence &amp; Audit Trail</h2>
+
+<div class="card">
+
+<p>
+<strong>Run ID:</strong>
+UAT-20261009-124017
+</p>
+
+<p>
+<strong>Evidence records:</strong>
+9
+</p>
+
+<p>
+<strong>Passed:</strong>
+9
+&nbsp;&nbsp;
+
+<strong>Failed:</strong>
+0
+&nbsp;&nbsp;
+
+<strong>Pass after retry:</strong>
+0
+</p>
+
+</div>
+
+<table>
+
+<tr>
+<th>Evidence ID</th>
+<th>Test</th>
+<th>Endpoint</th>
+<th>Request</th>
+<th>Expected</th>
+<th>Actual</th>
+<th>Status</th>
+<th>Failure / Diagnosis</th>
+<th>Retry</th>
+<th>Captured At</th>
+</tr>
+
+
+        <tr>
+            <td>EVID-0001</td>
+            <td>
+                <strong>AI-UAT-001</strong><br>
+                Successful booking
+            </td>
+            <td>
+                POST<br>
+                /booking
+            </td>
+            <td>
+                <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;DEMO123&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: None, &#x27;seat&#x27;: None}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115307
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0002</td>
+            <td>
+                <strong>AI-UAT-002</strong><br>
+                Booking with baggage
+            </td>
+            <td>
+                POST<br>
+                /booking
+            </td>
+            <td>
+                <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;20KG&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;20KG&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;DEMO123&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;20KG&#x27;, &#x27;seat&#x27;: None}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115332
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0003</td>
+            <td>
+                <strong>AI-UAT-003</strong><br>
+                Booking with seat
+            </td>
+            <td>
+                POST<br>
+                /booking
+            </td>
+            <td>
+                <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;seat&#x27;: &#x27;12A&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;seat&#x27;: &#x27;12A&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;DEMO123&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: None, &#x27;seat&#x27;: &#x27;12A&#x27;}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115344
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0004</td>
+            <td>
+                <strong>AI-UAT-004</strong><br>
+                Booking with missing passenger name
+            </td>
+            <td>
+                POST<br>
+                /booking
+            </td>
+            <td>
+                <pre>{&#x27;fare&#x27;: &#x27;ECONOMY&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_PAX&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_PAX&#x27;, &#x27;message&#x27;: &#x27;Passenger name is required&#x27;}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115353
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0005</td>
+            <td>
+                <strong>AI-UAT-006</strong><br>
+                Booking with invalid fare
+            </td>
+            <td>
+                POST<br>
+                /booking
+            </td>
+            <td>
+                <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;INVALID&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_FARE&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_FARE&#x27;, &#x27;message&#x27;: &#x27;The selected fare is no longer available&#x27;}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115361
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0006</td>
+            <td>
+                <strong>AI-UAT-007</strong><br>
+                Booking with invalid baggage
+            </td>
+            <td>
+                POST<br>
+                /booking
+            </td>
+            <td>
+                <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;INVALID&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_BAGGAGE&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_BAGGAGE&#x27;, &#x27;message&#x27;: &#x27;The selected baggage option is unavailable&#x27;}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115369
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0007</td>
+            <td>
+                <strong>AI-UAT-008</strong><br>
+                Booking with invalid seat
+            </td>
+            <td>
+                POST<br>
+                /booking
+            </td>
+            <td>
+                <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;seat&#x27;: &#x27;INVALID&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_SEAT&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_SEAT&#x27;, &#x27;message&#x27;: &#x27;The selected seat is unavailable&#x27;}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115376
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0008</td>
+            <td>
+                <strong>AI-UAT-009</strong><br>
+                Successful flight search
+            </td>
+            <td>
+                GET<br>
+                /search
+            </td>
+            <td>
+                <pre>{&#x27;origin&#x27;: &#x27;BOM&#x27;, &#x27;destination&#x27;: &#x27;DXB&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;origin&#x27;: &#x27;BOM&#x27;, &#x27;destination&#x27;: &#x27;DXB&#x27;, &#x27;results&#x27;: &#x27;non-empty array&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: True, &#x27;origin&#x27;: &#x27;BOM&#x27;, &#x27;destination&#x27;: &#x27;DXB&#x27;, &#x27;results&#x27;: [{&#x27;flight_number&#x27;: &#x27;AI101&#x27;, &#x27;airline&#x27;: &#x27;Air India&#x27;, &#x27;departure&#x27;: &#x27;08:00&#x27;, &#x27;arrival&#x27;: &#x27;10:30&#x27;}, {&#x27;flight_number&#x27;: &#x27;EK501&#x27;, &#x27;airline&#x27;: &#x27;Emirates&#x27;, &#x27;departure&#x27;: &#x27;10:15&#x27;, &#x27;arrival&#x27;: &#x27;12:45&#x27;}]}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115384
+            </td>
+        </tr>
+        
+        <tr>
+            <td>EVID-0009</td>
+            <td>
+                <strong>AI-UAT-010</strong><br>
+                Flight search with no results
+            </td>
+            <td>
+                GET<br>
+                /search
+            </td>
+            <td>
+                <pre>{&#x27;origin&#x27;: &#x27;BOM&#x27;, &#x27;destination&#x27;: &#x27;XYZ&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;NO_FLIGHTS&#x27;, &#x27;message&#x27;: &#x27;present&#x27;}</pre>
+            </td>
+            <td>
+                <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;NO_FLIGHTS&#x27;, &#x27;message&#x27;: &#x27;No flights available for this route&#x27;}</pre>
+            </td>
+            <td>
+                HTTP 200<br>
+                <strong>PASS</strong>
+            </td>
+            <td>
+                <strong>Failure:</strong><br>
+                None
+                <br><br>
+                <strong>AI Diagnosis:</strong><br>
+                None
+            </td>
+            <td>
+                False
+            </td>
+            <td>
+                2026-10-09T12:40:17.115397
+            </td>
+        </tr>
+        
+
+</table>
+
+<h2>Overall Platform Status</h2>
+
+<div class="card">
+
+<div class="status">
+PASS
+</div>
+
+</div>
+
+<p class="small">
+<strong>Report generated:</strong>
+2026-10-09T12:40:17.121583
+</p>
+
+</body>
+</html>

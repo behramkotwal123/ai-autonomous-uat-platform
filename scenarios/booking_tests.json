@@ -1,0 +1,152 @@
+[
+    {
+        "id": "UAT-001",
+        "scenario": "Successful Booking",
+        "category": "Booking",
+        "priority": "Critical",
+        "description": "Verify that a valid passenger can complete a booking successfully.",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+            "passenger_name": "Behram",
+            "fare": "ECONOMY"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": true,
+            "booking_status": "PENDING"
+        }
+    },
+    {
+        "id": "UAT-002",
+        "scenario": "Booking With Baggage",
+        "category": "Ancillary",
+        "priority": "High",
+        "description": "Verify that baggage can be added during booking.",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+            "passenger_name": "Behram",
+            "fare": "ECONOMY",
+            "baggage": "20KG"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": true,
+            "booking_status": "CONFIRMED",
+            "baggage": "20KG"
+        }
+    },
+    {
+        "id": "UAT-003",
+        "scenario": "Booking With Seat",
+        "category": "Ancillary",
+        "priority": "High",
+        "description": "Verify that a seat can be selected during booking.",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+            "passenger_name": "Behram",
+            "fare": "ECONOMY",
+            "seat": "12A"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": true,
+            "booking_status": "CONFIRMED",
+            "seat": "12A"
+        }
+    },
+    {
+        "id": "UAT-004",
+        "scenario": "Missing Passenger",
+        "category": "Validation",
+        "priority": "High",
+        "description": "Verify that a booking is rejected when passenger name is missing.",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+            "passenger_name": "",
+            "fare": "ECONOMY"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": false,
+            "error_code": "INVALID_PAX"
+        }
+    },
+    {
+        "id": "UAT-005",
+        "scenario": "Invalid Fare",
+        "category": "Validation",
+        "priority": "Critical",
+        "description": "Verify that an unavailable fare is rejected.",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+            "passenger_name": "Behram",
+            "fare": "INVALID"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": false,
+            "error_code": "INVALID_FARE"
+        }
+    },
+        {
+        "id": "UAT-006",
+        "scenario": "Invalid Baggage",
+        "category": "Validation",
+        "priority": "Medium",
+        "description": "Verify that an unavailable baggage option is rejected.",
+        "endpoint": "/booking",
+        "method": "POST",
+        "request": {
+            "passenger_name": "Behram",
+            "fare": "ECONOMY",
+            "baggage": "INVALID"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": false,
+            "error_code": "INVALID_BAGGAGE"
+        }
+    },
+        {
+        "id": "UAT-007",
+        "scenario": "Flight Search",
+        "category": "Search",
+        "priority": "Critical",
+        "description": "Verify that flight search returns available flights for a valid origin and destination.",
+        "endpoint": "/search",
+        "method": "GET",
+        "request": {
+            "origin": "BOM",
+            "destination": "DXB"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": true,
+            "origin": "BOM",
+            "destination": "DXB"
+        }
+    },
+    {
+        "id": "UAT-008",
+        "scenario": "Flight Search No Results",
+        "category": "Search",
+        "priority": "High",
+        "description": "Verify that the flight search returns an appropriate error when no flights are available for the requested route.",
+        "endpoint": "/search",
+        "method": "GET",
+        "request": {
+            "origin": "BOM",
+            "destination": "XYZ"
+        },
+        "expected": {
+            "http_status": 200,
+            "success": false,
+            "error_code": "NO_FLIGHTS"
+        }
+    }
+]
