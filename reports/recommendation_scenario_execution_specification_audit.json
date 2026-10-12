@@ -1,12 +1,12 @@
 {
   "AI-REC-001": {
-    "recommendation_id": "REC-FLIGHT-SEARCH-001",
+    "recommendation_id": "REC-FLIGHT-SEARCH-002",
     "scenario_id": "AI-REC-001",
     "method": "GET",
     "endpoint": "/search",
-    "request": "origin=DEL",
-    "expected": "Request is rejected because the required destination parameter is missing.",
+    "request": "origin=DEL&destination=LHR&cabin=UNSUPPORTED",
+    "expected": "The API should reject unsupported cabin configuration with a clear validation error.",
     "status": "EXECUTION_SPECIFIED",
-    "timestamp": "2026-10-07T16:34:19"
+    "timestamp": "2026-10-12T11:22:21"
   }
 }

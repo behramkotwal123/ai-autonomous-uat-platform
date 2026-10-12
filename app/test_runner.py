@@ -251,8 +251,8 @@ def validate_scenario(
     # --------------------------------------------------------
 
     expected_status_code = expected.get(
-        "status_code",
-        200
+        "http_status",
+        expected.get("status_code", 200)
     )
 
     if status_code != expected_status_code:
@@ -272,7 +272,7 @@ def validate_scenario(
 
     for field, expected_value in expected.items():
 
-        if field == "status_code":
+        if field in ("http_status", "status_code"):
             continue
 
         if not validate_expected_field(

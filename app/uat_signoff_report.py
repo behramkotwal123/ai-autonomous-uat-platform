@@ -1,5 +1,5 @@
-"""
-Phase 8B — UAT Executive Sign-off Report
+﻿"""
+Phase 8B â€” UAT Executive Sign-off Report
 
 Converts the deterministic Phase 8A release-readiness result
 into a concise business-facing UAT sign-off report.
@@ -13,6 +13,8 @@ Phase 8A remains the authoritative source for:
 """
 
 from datetime import datetime
+
+from app import release_readiness
 
 
 def get_value(data, key, default=None):
@@ -257,22 +259,28 @@ def build_key_findings(
         0,
     )
 
-    critical = len(
-        get_value(
-            release_readiness,
-            "critical_failures",
-            [],
-        )
-        or []
+    critical_value = get_value(
+        release_readiness,
+        "critical_failures",
+        0,
     )
 
-    unresolved = len(
-        get_value(
-            release_readiness,
-            "unresolved_failures",
-            [],
-        )
-        or []
+    critical = (
+        len(critical_value)
+        if isinstance(critical_value, (list, tuple, set))
+        else int(critical_value or 0)
+    )
+
+    unresolved_value = get_value(
+        release_readiness,
+        "unresolved_failures",
+        0,
+    )
+
+    unresolved = (
+        len(unresolved_value)
+        if isinstance(unresolved_value, (list, tuple, set))
+        else int(unresolved_value or 0)
     )
 
     findings.append(
@@ -417,7 +425,7 @@ def print_signoff_report(result):
 
     print()
     print("=" * 60)
-    print("             PHASE 8B — UAT SIGN-OFF")
+    print("             PHASE 8B â€” UAT SIGN-OFF")
     print("=" * 60)
 
     print()

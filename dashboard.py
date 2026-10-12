@@ -1226,26 +1226,8 @@ def save_recommendation_decisions():
             indent=2
         )
 
+
 def save_recommendation_scenario_states():
-
-    def save_recommendation_scenario_selections():
-
-        RECOMMENDATION_SCENARIO_SELECTION_AUDIT_PATH.parent.mkdir(
-    parents=True,
-    exist_ok=True
-    )
-
-    with open(
-        RECOMMENDATION_SCENARIO_SELECTION_AUDIT_PATH,
-        "w",
-        encoding="utf-8"
-    ) as selection_audit_file:
-
-        json.dump(
-            st.session_state.recommendation_scenario_selections,
-            selection_audit_file,
-            indent=2
-        )
 
     RECOMMENDATION_SCENARIO_AUDIT_PATH.parent.mkdir(
         parents=True,
@@ -1263,6 +1245,8 @@ def save_recommendation_scenario_states():
             scenario_audit_file,
             indent=2
         )
+
+
 
 def save_recommendation_scenario_selections():
     RECOMMENDATION_SCENARIO_SELECTION_AUDIT_PATH.parent.mkdir(
@@ -1284,6 +1268,23 @@ def save_recommendation_scenario_selections():
 RECOMMENDATION_SCENARIO_PLANNING_AUDIT_PATH = Path(
     "reports/recommendation_scenario_planning_audit.json"
 )
+
+def save_recommendation_scenario_plans():
+    RECOMMENDATION_SCENARIO_PLANNING_AUDIT_PATH.parent.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    with open(
+        RECOMMENDATION_SCENARIO_PLANNING_AUDIT_PATH,
+        "w",
+        encoding="utf-8"
+    ) as planning_audit_file:
+        json.dump(
+            st.session_state.recommendation_scenario_plans,
+            planning_audit_file,
+            indent=2
+        )
 
 def save_recommendation_scenario_execution_states():
     RECOMMENDATION_SCENARIO_EXECUTION_AUDIT_PATH.parent.mkdir(
@@ -2074,6 +2075,7 @@ if readiness_status == "READY_FOR_SELECTION":
     # CONTROLLED SCENARIO SELECTION
     # --------------------------------------------------
 
+    
     scenario_selection = (
         st.session_state
         .recommendation_scenario_selections
@@ -2083,10 +2085,19 @@ if readiness_status == "READY_FOR_SELECTION":
         )
     )
 
+    # Ignore a saved selection belonging to a different
+    # recommendation that reused this scenario ID.
+    if (
+        scenario_selection.get("recommendation_id")
+        != scenario["recommendation_id"]
+    ):
+        scenario_selection = {}
+
     selection_status = scenario_selection.get(
         "status",
         "READY_FOR_SELECTION"
     )
+
 
     st.caption(
         f"Selection Status: {selection_status}"
@@ -2163,6 +2174,14 @@ scenario_plan = (
     )
 )
 
+# Ignore a saved plan belonging to a different
+# recommendation that reused this scenario ID.
+if (
+    scenario_plan.get("recommendation_id")
+    != scenario["recommendation_id"]
+):
+    scenario_plan = {}
+
 planning_status = scenario_plan.get(
     "status",
     "SELECTED"
@@ -2197,22 +2216,7 @@ if selection_status == "SELECTED":
 
             st.rerun()
 
-def save_recommendation_scenario_plans():
-    RECOMMENDATION_SCENARIO_PLANNING_AUDIT_PATH.parent.mkdir(
-        parents=True,
-        exist_ok=True
-    )
 
-    with open(
-        RECOMMENDATION_SCENARIO_PLANNING_AUDIT_PATH,
-        "w",
-        encoding="utf-8"
-    ) as planning_audit_file:
-        json.dump(
-            st.session_state.recommendation_scenario_plans,
-            planning_audit_file,
-            indent=2
-        )
 
 # --------------------------------------------------
 # CONTROLLED EXECUTION HANDOFF
@@ -2228,6 +2232,14 @@ if planning_status == "PLANNED":
             {}
         )
     )
+
+    # Ignore an execution state belonging to a different
+    # recommendation that reused this scenario ID.
+    if (
+        execution_state.get("recommendation_id")
+        != scenario["recommendation_id"]
+    ):
+        execution_state = {}
 
     execution_status = execution_state.get(
         "status",
@@ -2369,6 +2381,14 @@ if planning_status == "PLANNED":
             )
         )
 
+        # Ignore a specification belonging to a different
+        # recommendation that reused this scenario ID.
+        if (
+            execution_specification.get("recommendation_id")
+            != scenario["recommendation_id"]
+        ):
+            execution_specification = {}
+
         execution_validation_input = {
             **scenario,
             "method": execution_specification.get(
@@ -2502,7 +2522,28 @@ if planning_status == "PLANNED":
 
         st.success(
             "Execution status: EXECUTABLE"
-        )        
+        )
+
+        if st.button(
+            "Return to Specification",
+            key=f"return_to_specification_{scenario['id']}"
+        ):
+            st.session_state.recommendation_scenario_execution_states[
+                scenario["id"]
+            ] = {
+                "recommendation_id": scenario[
+                    "recommendation_id"
+                ],
+                "scenario_id": scenario["id"],
+                "status": "READY_FOR_EXECUTION",
+                "timestamp": datetime.now().isoformat(
+                    timespec="seconds"
+                )
+            }
+
+            save_recommendation_scenario_execution_states()
+
+            st.rerun()      
 
 # --------------------------------------------------
 # ASSESS SCENARIO READINESS
@@ -3452,7 +3493,11 @@ with detail_col3:
 # --------------------------------------------------
 
 st.markdown("## Last Execution")
-
+st.caption(
+    "The health metrics reflect the last recorded UAT run. "
+    "They do not indicate that newly generated recommendation "
+    "scenarios have been executed."
+)
 
 if run_timestamp:
 
@@ -3674,17 +3719,17 @@ roadmap = [
     },
     {
         "phase": "Phase 3",
-        "name": "Name to be verified",
-        "status": "Needs verification"
+        "name": "Initial Coverage Analysis",
+        "status": "Verified in fresh end-to-end pipeline run; 12 requirements, 11 covered, 0 uncovered, 1 not specified"
     },
     {
         "phase": "Phase 4",
-        "name": "Name to be verified",
-        "status": "Needs verification"
+        "name": "Autonomous Test Selection",
+        "status": "Verified: standalone selector selected 5 prioritised scenarios; fresh end-to-end run selected 9 and all 9 passed"
     },
     {
         "phase": "Phase 5",
-        "name": "Initial Coverage Analysis",
+        "name": "Final Coverage Analysis",
         "status": "Verified in fresh pipeline run"
     },
     {
@@ -4216,11 +4261,24 @@ else:
         else:
             st.info("The pass rate is unchanged.")
 
-        # Match scenarios by ID where available, with a request-based fallback.
+        # Use scenario IDs only when every result in both runs has an ID.
+        # Otherwise, use request details for backward compatibility.
+        all_selected_results = baseline["results"] + current["results"]
+        use_scenario_ids = bool(all_selected_results) and all(
+            result.get("id") or result.get("scenario_id")
+            for result in all_selected_results
+        )
+
         def scenario_key(result):
+            scenario_id = result.get("id") or result.get("scenario_id")
+
+            if use_scenario_ids and scenario_id:
+                return ("id", str(scenario_id))
+
             request_data = result.get("request") or {}
 
             return (
+                "request",
                 str(result.get("endpoint") or ""),
                 str(result.get("method") or "").upper(),
                 json.dumps(request_data, sort_keys=True, default=str),
@@ -4358,3 +4416,4 @@ else:
 
             st.write("**Comparison report**")
             st.json(current["report"])
+

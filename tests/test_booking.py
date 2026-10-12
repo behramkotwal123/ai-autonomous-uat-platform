@@ -51,3 +51,13 @@ def test_invalid_fare():
 
     assert data["success"] is False
     assert data["error_code"] == "INVALID_FARE"
+
+    
+def test_missing_fare():
+    request = {"passenger_name": "Behram"}
+    response = client.post("/booking", json=request)
+    data = response.json()
+
+    assert response.status_code == 200
+    assert data["success"] is False
+    assert data["error_code"] == "INVALID_FARE"

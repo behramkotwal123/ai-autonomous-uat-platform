@@ -1,7 +1,7 @@
 {
   "platform": "AI UAT Platform",
-  "run_timestamp": "2026-10-09T12:40:17.121583",
-  "execution_time_seconds": 39.67,
+  "run_timestamp": "2026-10-12T13:33:11.607758",
+  "execution_time_seconds": 71.9,
   "summary": {
     "scenarios_generated": 10,
     "scenarios_valid": 10,
@@ -20,61 +20,61 @@
     "results": [
       {
         "id": "AI-UAT-001",
-        "scenario": "Successful booking",
+        "scenario": "Create a booking with passenger and fare",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-002",
-        "scenario": "Booking with baggage",
+        "scenario": "Create a booking with baggage",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-003",
-        "scenario": "Booking with seat",
+        "scenario": "Create a booking with a seat",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-004",
-        "scenario": "Booking with missing passenger name",
+        "scenario": "Reject a booking with a missing passenger name",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-005",
-        "scenario": "Booking with empty passenger name",
+        "scenario": "Reject a booking with an empty passenger name",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-006",
-        "scenario": "Booking with invalid fare",
+        "scenario": "Reject a booking with an unavailable fare",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-007",
-        "scenario": "Booking with invalid baggage",
+        "scenario": "Reject a booking with unavailable baggage",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-008",
-        "scenario": "Booking with invalid seat",
+        "scenario": "Reject a booking with an unavailable seat",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-009",
-        "scenario": "Successful flight search",
+        "scenario": "Search for flights on a route with results",
         "valid": true,
         "errors": []
       },
       {
         "id": "AI-UAT-010",
-        "scenario": "Flight search with no results",
+        "scenario": "Search for flights on a route with no results",
         "valid": true,
         "errors": []
       }
@@ -85,10 +85,10 @@
   "coverage_analysis": {
     "coverage": {
       "total_requirements": 12,
-      "assessable_requirements": 11,
-      "covered": 11,
+      "assessable_requirements": 12,
+      "covered": 12,
       "uncovered": 0,
-      "not_specified": 1,
+      "not_specified": 0,
       "coverage_percentage": 100.0,
       "requirements": [
         {
@@ -148,9 +148,8 @@
         {
           "requirement_id": "HTTP_STATUS",
           "description": "HTTP status code validation",
-          "status": "NOT_SPECIFIED",
-          "covered": false,
-          "reason": "API documentation does not define expected HTTP status codes."
+          "status": "COVERED",
+          "covered": true
         },
         {
           "requirement_id": "RESPONSE_FIELDS",
@@ -167,26 +166,34 @@
       ]
     },
     "ai_analysis": {
-      "overall_assessment": "The deterministic result remains 100% coverage of assessable requirements (11 of 11). One requirement, HTTP_STATUS, is NOT_SPECIFIED rather than uncovered: the API documentation gives no expected HTTP status codes. There are no uncovered documented functional requirements in the supplied results.",
-      "risk_level": "Low",
+      "overall_assessment": "The deterministic result remains 12 of 12 requirements covered (100%). The scenarios provide broad coverage of the documented booking and search cases. A closer review of the documented fare validation details identifies a specific test-depth gap: the INVALID_FARE scenario exercises an unavailable fare, but not a missing or empty fare. Search HTTP status behavior is not specified in the documentation, so it cannot be treated as an executable coverage requirement until defined.",
+      "risk_level": "Medium",
       "key_strengths": [
-        "Scenarios cover successful booking and the documented optional baggage and seat selections.",
-        "Scenarios cover each documented booking validation error: INVALID_PAX, INVALID_FARE, INVALID_BAGGAGE, and INVALID_SEAT.",
-        "Scenarios cover both documented flight-search outcomes: results available and NO_FLIGHTS.",
-        "The scenarios assert documented response fields and expected values across the successful cases."
+        "Covers booking success and successful bookings with baggage and seat selections.",
+        "Covers both missing and empty passenger names, plus unavailable baggage and seat selections.",
+        "Covers successful flight search and a search with no flights, including documented response fields.",
+        "Booking scenarios assert HTTP 200 for successful and unsuccessful booking responses, as documented.",
+        "The deterministic coverage result is preserved; the observations below concern scenario detail and documentation boundaries."
       ],
       "coverage_gaps": [
         {
-          "requirement_id": "HTTP_STATUS",
+          "requirement_id": "INVALID_FARE",
           "risk": "Medium",
-          "reason": "This is a specification gap, not a genuine test-coverage gap. The documentation does not define expected HTTP status codes, so the status cannot be asserted without inventing behavior. It must be defined before HTTP status validation can become an executable coverage requirement.",
-          "recommended_test": "First obtain an API contract decision defining the expected HTTP status code or codes for successful booking, booking validation errors, successful search, and NO_FLIGHTS. Once documented, add UAT assertions for those defined codes; do not assume particular codes beforehand."
+          "reason": "The documentation says INVALID_FARE applies when fare is missing, empty, or unavailable, and gives a message for a missing fare. AI-UAT-006 tests only an unavailable fare and asserts only the error code, so missing/empty input and the documented message are not verified.",
+          "recommended_test": "Add a booking test with a valid passenger name and no fare, asserting HTTP 200, success=false, error_code=INVALID_FARE, and message=\"Fare is required\". Add a separate empty-fare case if the API distinguishes it, and assert the same documented error response."
+        },
+        {
+          "requirement_id": "SEARCH_HTTP_STATUS_NOT_SPECIFIED",
+          "risk": "Low",
+          "reason": "The scenarios do not assert HTTP status for search. The documentation defines HTTP 200 for booking validation responses but does not define search HTTP status codes. This is a documentation boundary, not an uncovered documented requirement; a search status assertion should not be made executable until the expected status is defined.",
+          "recommended_test": "Define the expected HTTP status for successful and no-flights search responses in the API documentation, then add assertions for both cases. Until then, do not assume a status code."
         }
       ],
       "recommendations": [
-        "Keep the reported deterministic coverage at 100% of assessable requirements and retain HTTP_STATUS as NOT_SPECIFIED until the API contract defines it.",
-        "Resolve the HTTP status-code contract with the API owner, then add tests based on the approved documentation.",
-        "Do not infer values or presence behavior for unselected optional baggage or seat fields beyond what the API documentation specifies."
+        "Keep the deterministic 12/12 coverage result unchanged while adding the missing-fare scenario to strengthen coverage of the documented INVALID_FARE conditions.",
+        "Assert documented error messages where the documentation provides them, in addition to error codes.",
+        "Clarify search HTTP status behavior in the API documentation before treating it as a testable requirement.",
+        "Do not add tests for undocumented search parameter validation behavior unless that behavior is first specified."
       ]
     }
   },
@@ -198,10 +205,10 @@
   "selected_tests": [
     {
       "id": "AI-UAT-001",
-      "scenario": "Successful booking",
+      "scenario": "Create a booking with passenger and fare",
       "category": "Booking - Positive",
       "priority": "Critical",
-      "description": "Create a booking with a valid passenger name and fare. Verify the booking is confirmed and the response reflects the submitted values.",
+      "description": "Verify that a booking is confirmed when a passenger name and valid fare are provided.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -209,6 +216,7 @@
         "fare": "ECONOMY"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -216,14 +224,14 @@
         "fare": "ECONOMY"
       },
       "selection_priority": "Critical",
-      "selection_reason": "Validates the core booking flow, confirmation status, PNR generation, and key response fields."
+      "selection_reason": "Validates the core booking flow, confirmed status, PNR, and key response fields."
     },
     {
       "id": "AI-UAT-002",
-      "scenario": "Booking with baggage",
+      "scenario": "Create a booking with baggage",
       "category": "Booking - Positive",
       "priority": "High",
-      "description": "Create a booking with valid passenger, fare, and baggage selections. Verify the response reflects the submitted values.",
+      "description": "Verify that a booking is confirmed when the valid baggage option is selected.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -232,6 +240,7 @@
         "baggage": "20KG"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -240,14 +249,14 @@
         "baggage": "20KG"
       },
       "selection_priority": "High",
-      "selection_reason": "Covers successful booking with the optional baggage field and verifies it is reflected in the response."
+      "selection_reason": "Covers successful booking with the optional baggage selection and its response value."
     },
     {
       "id": "AI-UAT-003",
-      "scenario": "Booking with seat",
+      "scenario": "Create a booking with a seat",
       "category": "Booking - Positive",
       "priority": "High",
-      "description": "Create a booking with valid passenger, fare, and seat selections. Verify the response reflects the submitted values.",
+      "description": "Verify that a booking is confirmed when the valid seat is selected.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -256,6 +265,7 @@
         "seat": "12A"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -264,31 +274,33 @@
         "seat": "12A"
       },
       "selection_priority": "High",
-      "selection_reason": "Covers successful booking with the optional seat field and verifies it is reflected in the response."
+      "selection_reason": "Covers successful booking with the optional seat selection and its response value."
     },
     {
       "id": "AI-UAT-004",
-      "scenario": "Booking with missing passenger name",
+      "scenario": "Reject a booking with a missing passenger name",
       "category": "Booking - Negative",
       "priority": "High",
-      "description": "Submit a booking request without the required passenger_name field. Verify the documented invalid passenger error is returned.",
+      "description": "Verify that the API rejects a booking request that omits the required passenger_name field.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
         "fare": "ECONOMY"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_PAX"
       },
       "selection_priority": "High",
-      "selection_reason": "Checks the required passenger-name validation for a missing field; the empty-name case tests the same documented error."
+      "selection_reason": "Validates the required passenger-name rule when the field is omitted and checks the documented error response."
     },
     {
       "id": "AI-UAT-006",
-      "scenario": "Booking with invalid fare",
+      "scenario": "Reject a booking with an unavailable fare",
       "category": "Booking - Negative",
       "priority": "High",
-      "description": "Submit a booking request with the documented invalid fare value. Verify the documented invalid fare error is returned.",
+      "description": "Verify that the API rejects the known invalid fare value.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -296,17 +308,19 @@
         "fare": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_FARE"
       },
       "selection_priority": "High",
-      "selection_reason": "Verifies the distinct INVALID_FARE validation for an unavailable fare."
+      "selection_reason": "Covers rejection of an unavailable fare, a key booking validation rule."
     },
     {
       "id": "AI-UAT-007",
-      "scenario": "Booking with invalid baggage",
+      "scenario": "Reject a booking with unavailable baggage",
       "category": "Booking - Negative",
       "priority": "Medium",
-      "description": "Submit a booking request with a valid passenger and fare but an unavailable baggage option. Verify the documented invalid baggage error is returned.",
+      "description": "Verify that the API rejects a booking when the selected baggage option is unavailable.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -315,17 +329,19 @@
         "baggage": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_BAGGAGE"
       },
       "selection_priority": "Medium",
-      "selection_reason": "Verifies the distinct INVALID_BAGGAGE validation for an unavailable baggage option."
+      "selection_reason": "Verifies the distinct INVALID_BAGGAGE error for an unavailable optional selection."
     },
     {
       "id": "AI-UAT-008",
-      "scenario": "Booking with invalid seat",
+      "scenario": "Reject a booking with an unavailable seat",
       "category": "Booking - Negative",
       "priority": "Medium",
-      "description": "Submit a booking request with a valid passenger and fare but an unavailable seat. Verify the documented invalid seat error is returned.",
+      "description": "Verify that the API rejects a booking when the selected seat is unavailable.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -334,17 +350,19 @@
         "seat": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_SEAT"
       },
       "selection_priority": "Medium",
-      "selection_reason": "Verifies the distinct INVALID_SEAT validation for an unavailable seat."
+      "selection_reason": "Verifies the distinct INVALID_SEAT error for an unavailable optional selection."
     },
     {
       "id": "AI-UAT-009",
-      "scenario": "Successful flight search",
+      "scenario": "Search for flights on a route with results",
       "category": "Flight Search - Positive",
-      "priority": "Critical",
-      "description": "Search for flights on the documented valid route and verify the response identifies the route and contains at least one available flight.",
+      "priority": "High",
+      "description": "Verify that a search for the documented valid route returns success and a non-empty results array.",
       "endpoint": "/search",
       "method": "GET",
       "request": {
@@ -358,14 +376,14 @@
         "results": "non-empty array"
       },
       "selection_priority": "High",
-      "selection_reason": "Validates the successful search response, route fields, and presence of available flights."
+      "selection_reason": "Validates a successful flight search and confirms the route and non-empty results contract."
     },
     {
       "id": "AI-UAT-010",
-      "scenario": "Flight search with no results",
+      "scenario": "Search for flights on a route with no results",
       "category": "Flight Search - Negative",
-      "priority": "High",
-      "description": "Search the documented no-flight route and verify the API returns the NO_FLIGHTS error and a non-null message.",
+      "priority": "Medium",
+      "description": "Verify that a search to the documented no-flight destination returns the NO_FLIGHTS error and a message field.",
       "endpoint": "/search",
       "method": "GET",
       "request": {
@@ -377,8 +395,8 @@
         "error_code": "NO_FLIGHTS",
         "message": "present"
       },
-      "selection_priority": "High",
-      "selection_reason": "Covers the no-flights path and verifies the documented error code and message."
+      "selection_priority": "Medium",
+      "selection_reason": "Covers the no-flights search response, including its error code and message."
     }
   ],
   "uat_test_plan": {
@@ -388,10 +406,10 @@
       "tests_selected": 9,
       "coverage_percentage": 100.0,
       "total_requirements": 12,
-      "covered_requirements": 11,
+      "covered_requirements": 12,
       "uncovered_requirements": 0,
-      "not_specified_requirements": 1,
-      "risk_level": "Low",
+      "not_specified_requirements": 0,
+      "risk_level": "Medium",
       "execution_order": [
         "AI-UAT-009",
         "AI-UAT-010",
@@ -407,121 +425,131 @@
         {
           "execution_order": 1,
           "id": "AI-UAT-009",
-          "scenario": "Successful flight search",
+          "scenario": "Search for flights on a route with results",
           "category": "Flight Search - Positive",
-          "priority": "Critical",
+          "priority": "High",
           "method": "GET",
           "endpoint": "/search",
-          "selection_reason": "Validates the successful search response, route fields, and presence of available flights.",
+          "selection_reason": "Validates a successful flight search and confirms the route and non-empty results contract.",
           "coverage_requirements": [],
           "expected_outcome": "API should return a successful response."
         },
         {
           "execution_order": 2,
           "id": "AI-UAT-010",
-          "scenario": "Flight search with no results",
+          "scenario": "Search for flights on a route with no results",
           "category": "Flight Search - Negative",
-          "priority": "High",
+          "priority": "Medium",
           "method": "GET",
           "endpoint": "/search",
-          "selection_reason": "Covers the no-flights path and verifies the documented error code and message.",
+          "selection_reason": "Covers the no-flights search response, including its error code and message.",
           "coverage_requirements": [],
           "expected_outcome": "API should return error NO_FLIGHTS."
         },
         {
           "execution_order": 3,
           "id": "AI-UAT-001",
-          "scenario": "Successful booking",
+          "scenario": "Create a booking with passenger and fare",
           "category": "Booking - Positive",
           "priority": "Critical",
           "method": "POST",
           "endpoint": "/booking",
-          "selection_reason": "Validates the core booking flow, confirmation status, PNR generation, and key response fields.",
-          "coverage_requirements": [],
+          "selection_reason": "Validates the core booking flow, confirmed status, PNR, and key response fields.",
+          "coverage_requirements": [
+            "HTTP_STATUS"
+          ],
           "expected_outcome": "API should successfully complete the operation with status CONFIRMED."
         },
         {
           "execution_order": 4,
           "id": "AI-UAT-002",
-          "scenario": "Booking with baggage",
+          "scenario": "Create a booking with baggage",
           "category": "Booking - Positive",
           "priority": "High",
           "method": "POST",
           "endpoint": "/booking",
-          "selection_reason": "Covers successful booking with the optional baggage field and verifies it is reflected in the response.",
-          "coverage_requirements": [],
+          "selection_reason": "Covers successful booking with the optional baggage selection and its response value.",
+          "coverage_requirements": [
+            "HTTP_STATUS"
+          ],
           "expected_outcome": "API should successfully complete the operation with status CONFIRMED."
         },
         {
           "execution_order": 5,
           "id": "AI-UAT-003",
-          "scenario": "Booking with seat",
+          "scenario": "Create a booking with a seat",
           "category": "Booking - Positive",
           "priority": "High",
           "method": "POST",
           "endpoint": "/booking",
-          "selection_reason": "Covers successful booking with the optional seat field and verifies it is reflected in the response.",
-          "coverage_requirements": [],
+          "selection_reason": "Covers successful booking with the optional seat selection and its response value.",
+          "coverage_requirements": [
+            "HTTP_STATUS"
+          ],
           "expected_outcome": "API should successfully complete the operation with status CONFIRMED."
         },
         {
           "execution_order": 6,
           "id": "AI-UAT-004",
-          "scenario": "Booking with missing passenger name",
+          "scenario": "Reject a booking with a missing passenger name",
           "category": "Booking - Negative",
           "priority": "High",
           "method": "POST",
           "endpoint": "/booking",
-          "selection_reason": "Checks the required passenger-name validation for a missing field; the empty-name case tests the same documented error.",
+          "selection_reason": "Validates the required passenger-name rule when the field is omitted and checks the documented error response.",
           "coverage_requirements": [
-            "INVALID_PAX"
+            "INVALID_PAX",
+            "HTTP_STATUS"
           ],
           "expected_outcome": "API should return error INVALID_PAX."
         },
         {
           "execution_order": 7,
           "id": "AI-UAT-006",
-          "scenario": "Booking with invalid fare",
+          "scenario": "Reject a booking with an unavailable fare",
           "category": "Booking - Negative",
           "priority": "High",
           "method": "POST",
           "endpoint": "/booking",
-          "selection_reason": "Verifies the distinct INVALID_FARE validation for an unavailable fare.",
+          "selection_reason": "Covers rejection of an unavailable fare, a key booking validation rule.",
           "coverage_requirements": [
-            "INVALID_FARE"
+            "INVALID_FARE",
+            "HTTP_STATUS"
           ],
           "expected_outcome": "API should return error INVALID_FARE."
         },
         {
           "execution_order": 8,
           "id": "AI-UAT-007",
-          "scenario": "Booking with invalid baggage",
+          "scenario": "Reject a booking with unavailable baggage",
           "category": "Booking - Negative",
           "priority": "Medium",
           "method": "POST",
           "endpoint": "/booking",
-          "selection_reason": "Verifies the distinct INVALID_BAGGAGE validation for an unavailable baggage option.",
+          "selection_reason": "Verifies the distinct INVALID_BAGGAGE error for an unavailable optional selection.",
           "coverage_requirements": [
-            "INVALID_BAGGAGE"
+            "INVALID_BAGGAGE",
+            "HTTP_STATUS"
           ],
           "expected_outcome": "API should return error INVALID_BAGGAGE."
         },
         {
           "execution_order": 9,
           "id": "AI-UAT-008",
-          "scenario": "Booking with invalid seat",
+          "scenario": "Reject a booking with an unavailable seat",
           "category": "Booking - Negative",
           "priority": "Medium",
           "method": "POST",
           "endpoint": "/booking",
-          "selection_reason": "Verifies the distinct INVALID_SEAT validation for an unavailable seat.",
+          "selection_reason": "Verifies the distinct INVALID_SEAT error for an unavailable optional selection.",
           "coverage_requirements": [
-            "INVALID_SEAT"
+            "INVALID_SEAT",
+            "HTTP_STATUS"
           ],
           "expected_outcome": "API should return error INVALID_SEAT."
         }
       ],
-      "recommendation": "Documented coverage is complete and the planned tests are ready for execution."
+      "recommendation": "Coverage is complete. Review medium-risk observations before UAT sign-off."
     }
   },
   "uat_orchestration": {
@@ -529,7 +557,7 @@
       "mode": "SEQUENTIAL",
       "total_tests": 9,
       "expected_executions": 9,
-      "risk_level": "Low",
+      "risk_level": "Medium",
       "failure_policy": "CONTINUE",
       "stop_condition": "DO_NOT_STOP_ON_SINGLE_TEST_FAILURE",
       "retry_policy": "USE_EXISTING_TEST_RUNNER_RETRY_POLICY",
@@ -537,8 +565,8 @@
         {
           "execution_order": 1,
           "id": "AI-UAT-009",
-          "scenario": "Successful flight search",
-          "priority": "Critical",
+          "scenario": "Search for flights on a route with results",
+          "priority": "High",
           "method": "GET",
           "endpoint": "/search",
           "coverage_requirements": []
@@ -546,8 +574,8 @@
         {
           "execution_order": 2,
           "id": "AI-UAT-010",
-          "scenario": "Flight search with no results",
-          "priority": "High",
+          "scenario": "Search for flights on a route with no results",
+          "priority": "Medium",
           "method": "GET",
           "endpoint": "/search",
           "coverage_requirements": []
@@ -555,72 +583,82 @@
         {
           "execution_order": 3,
           "id": "AI-UAT-001",
-          "scenario": "Successful booking",
+          "scenario": "Create a booking with passenger and fare",
           "priority": "Critical",
           "method": "POST",
           "endpoint": "/booking",
-          "coverage_requirements": []
+          "coverage_requirements": [
+            "HTTP_STATUS"
+          ]
         },
         {
           "execution_order": 4,
           "id": "AI-UAT-002",
-          "scenario": "Booking with baggage",
-          "priority": "High",
-          "method": "POST",
-          "endpoint": "/booking",
-          "coverage_requirements": []
-        },
-        {
-          "execution_order": 5,
-          "id": "AI-UAT-003",
-          "scenario": "Booking with seat",
-          "priority": "High",
-          "method": "POST",
-          "endpoint": "/booking",
-          "coverage_requirements": []
-        },
-        {
-          "execution_order": 6,
-          "id": "AI-UAT-004",
-          "scenario": "Booking with missing passenger name",
+          "scenario": "Create a booking with baggage",
           "priority": "High",
           "method": "POST",
           "endpoint": "/booking",
           "coverage_requirements": [
-            "INVALID_PAX"
+            "HTTP_STATUS"
+          ]
+        },
+        {
+          "execution_order": 5,
+          "id": "AI-UAT-003",
+          "scenario": "Create a booking with a seat",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": [
+            "HTTP_STATUS"
+          ]
+        },
+        {
+          "execution_order": 6,
+          "id": "AI-UAT-004",
+          "scenario": "Reject a booking with a missing passenger name",
+          "priority": "High",
+          "method": "POST",
+          "endpoint": "/booking",
+          "coverage_requirements": [
+            "INVALID_PAX",
+            "HTTP_STATUS"
           ]
         },
         {
           "execution_order": 7,
           "id": "AI-UAT-006",
-          "scenario": "Booking with invalid fare",
+          "scenario": "Reject a booking with an unavailable fare",
           "priority": "High",
           "method": "POST",
           "endpoint": "/booking",
           "coverage_requirements": [
-            "INVALID_FARE"
+            "INVALID_FARE",
+            "HTTP_STATUS"
           ]
         },
         {
           "execution_order": 8,
           "id": "AI-UAT-007",
-          "scenario": "Booking with invalid baggage",
+          "scenario": "Reject a booking with unavailable baggage",
           "priority": "Medium",
           "method": "POST",
           "endpoint": "/booking",
           "coverage_requirements": [
-            "INVALID_BAGGAGE"
+            "INVALID_BAGGAGE",
+            "HTTP_STATUS"
           ]
         },
         {
           "execution_order": 9,
           "id": "AI-UAT-008",
-          "scenario": "Booking with invalid seat",
+          "scenario": "Reject a booking with an unavailable seat",
           "priority": "Medium",
           "method": "POST",
           "endpoint": "/booking",
           "coverage_requirements": [
-            "INVALID_SEAT"
+            "INVALID_SEAT",
+            "HTTP_STATUS"
           ]
         }
       ],
@@ -631,8 +669,8 @@
             {
               "execution_order": 1,
               "id": "AI-UAT-009",
-              "scenario": "Successful flight search",
-              "priority": "Critical",
+              "scenario": "Search for flights on a route with results",
+              "priority": "High",
               "method": "GET",
               "endpoint": "/search",
               "coverage_requirements": []
@@ -640,8 +678,8 @@
             {
               "execution_order": 2,
               "id": "AI-UAT-010",
-              "scenario": "Flight search with no results",
-              "priority": "High",
+              "scenario": "Search for flights on a route with no results",
+              "priority": "Medium",
               "method": "GET",
               "endpoint": "/search",
               "coverage_requirements": []
@@ -654,72 +692,82 @@
             {
               "execution_order": 3,
               "id": "AI-UAT-001",
-              "scenario": "Successful booking",
+              "scenario": "Create a booking with passenger and fare",
               "priority": "Critical",
               "method": "POST",
               "endpoint": "/booking",
-              "coverage_requirements": []
+              "coverage_requirements": [
+                "HTTP_STATUS"
+              ]
             },
             {
               "execution_order": 4,
               "id": "AI-UAT-002",
-              "scenario": "Booking with baggage",
-              "priority": "High",
-              "method": "POST",
-              "endpoint": "/booking",
-              "coverage_requirements": []
-            },
-            {
-              "execution_order": 5,
-              "id": "AI-UAT-003",
-              "scenario": "Booking with seat",
-              "priority": "High",
-              "method": "POST",
-              "endpoint": "/booking",
-              "coverage_requirements": []
-            },
-            {
-              "execution_order": 6,
-              "id": "AI-UAT-004",
-              "scenario": "Booking with missing passenger name",
+              "scenario": "Create a booking with baggage",
               "priority": "High",
               "method": "POST",
               "endpoint": "/booking",
               "coverage_requirements": [
-                "INVALID_PAX"
+                "HTTP_STATUS"
+              ]
+            },
+            {
+              "execution_order": 5,
+              "id": "AI-UAT-003",
+              "scenario": "Create a booking with a seat",
+              "priority": "High",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": [
+                "HTTP_STATUS"
+              ]
+            },
+            {
+              "execution_order": 6,
+              "id": "AI-UAT-004",
+              "scenario": "Reject a booking with a missing passenger name",
+              "priority": "High",
+              "method": "POST",
+              "endpoint": "/booking",
+              "coverage_requirements": [
+                "INVALID_PAX",
+                "HTTP_STATUS"
               ]
             },
             {
               "execution_order": 7,
               "id": "AI-UAT-006",
-              "scenario": "Booking with invalid fare",
+              "scenario": "Reject a booking with an unavailable fare",
               "priority": "High",
               "method": "POST",
               "endpoint": "/booking",
               "coverage_requirements": [
-                "INVALID_FARE"
+                "INVALID_FARE",
+                "HTTP_STATUS"
               ]
             },
             {
               "execution_order": 8,
               "id": "AI-UAT-007",
-              "scenario": "Booking with invalid baggage",
+              "scenario": "Reject a booking with unavailable baggage",
               "priority": "Medium",
               "method": "POST",
               "endpoint": "/booking",
               "coverage_requirements": [
-                "INVALID_BAGGAGE"
+                "INVALID_BAGGAGE",
+                "HTTP_STATUS"
               ]
             },
             {
               "execution_order": 9,
               "id": "AI-UAT-008",
-              "scenario": "Booking with invalid seat",
+              "scenario": "Reject a booking with an unavailable seat",
               "priority": "Medium",
               "method": "POST",
               "endpoint": "/booking",
               "coverage_requirements": [
-                "INVALID_SEAT"
+                "INVALID_SEAT",
+                "HTTP_STATUS"
               ]
             }
           ]
@@ -731,10 +779,10 @@
   "selected_scenarios": [
     {
       "id": "AI-UAT-001",
-      "scenario": "Successful booking",
+      "scenario": "Create a booking with passenger and fare",
       "category": "Booking - Positive",
       "priority": "Critical",
-      "description": "Create a booking with a valid passenger name and fare. Verify the booking is confirmed and the response reflects the submitted values.",
+      "description": "Verify that a booking is confirmed when a passenger name and valid fare are provided.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -742,6 +790,7 @@
         "fare": "ECONOMY"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -749,14 +798,14 @@
         "fare": "ECONOMY"
       },
       "selection_priority": "Critical",
-      "selection_reason": "Validates the core booking flow, confirmation status, PNR generation, and key response fields."
+      "selection_reason": "Validates the core booking flow, confirmed status, PNR, and key response fields."
     },
     {
       "id": "AI-UAT-002",
-      "scenario": "Booking with baggage",
+      "scenario": "Create a booking with baggage",
       "category": "Booking - Positive",
       "priority": "High",
-      "description": "Create a booking with valid passenger, fare, and baggage selections. Verify the response reflects the submitted values.",
+      "description": "Verify that a booking is confirmed when the valid baggage option is selected.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -765,6 +814,7 @@
         "baggage": "20KG"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -773,14 +823,14 @@
         "baggage": "20KG"
       },
       "selection_priority": "High",
-      "selection_reason": "Covers successful booking with the optional baggage field and verifies it is reflected in the response."
+      "selection_reason": "Covers successful booking with the optional baggage selection and its response value."
     },
     {
       "id": "AI-UAT-003",
-      "scenario": "Booking with seat",
+      "scenario": "Create a booking with a seat",
       "category": "Booking - Positive",
       "priority": "High",
-      "description": "Create a booking with valid passenger, fare, and seat selections. Verify the response reflects the submitted values.",
+      "description": "Verify that a booking is confirmed when the valid seat is selected.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -789,6 +839,7 @@
         "seat": "12A"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -797,31 +848,33 @@
         "seat": "12A"
       },
       "selection_priority": "High",
-      "selection_reason": "Covers successful booking with the optional seat field and verifies it is reflected in the response."
+      "selection_reason": "Covers successful booking with the optional seat selection and its response value."
     },
     {
       "id": "AI-UAT-004",
-      "scenario": "Booking with missing passenger name",
+      "scenario": "Reject a booking with a missing passenger name",
       "category": "Booking - Negative",
       "priority": "High",
-      "description": "Submit a booking request without the required passenger_name field. Verify the documented invalid passenger error is returned.",
+      "description": "Verify that the API rejects a booking request that omits the required passenger_name field.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
         "fare": "ECONOMY"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_PAX"
       },
       "selection_priority": "High",
-      "selection_reason": "Checks the required passenger-name validation for a missing field; the empty-name case tests the same documented error."
+      "selection_reason": "Validates the required passenger-name rule when the field is omitted and checks the documented error response."
     },
     {
       "id": "AI-UAT-006",
-      "scenario": "Booking with invalid fare",
+      "scenario": "Reject a booking with an unavailable fare",
       "category": "Booking - Negative",
       "priority": "High",
-      "description": "Submit a booking request with the documented invalid fare value. Verify the documented invalid fare error is returned.",
+      "description": "Verify that the API rejects the known invalid fare value.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -829,17 +882,19 @@
         "fare": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_FARE"
       },
       "selection_priority": "High",
-      "selection_reason": "Verifies the distinct INVALID_FARE validation for an unavailable fare."
+      "selection_reason": "Covers rejection of an unavailable fare, a key booking validation rule."
     },
     {
       "id": "AI-UAT-007",
-      "scenario": "Booking with invalid baggage",
+      "scenario": "Reject a booking with unavailable baggage",
       "category": "Booking - Negative",
       "priority": "Medium",
-      "description": "Submit a booking request with a valid passenger and fare but an unavailable baggage option. Verify the documented invalid baggage error is returned.",
+      "description": "Verify that the API rejects a booking when the selected baggage option is unavailable.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -848,17 +903,19 @@
         "baggage": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_BAGGAGE"
       },
       "selection_priority": "Medium",
-      "selection_reason": "Verifies the distinct INVALID_BAGGAGE validation for an unavailable baggage option."
+      "selection_reason": "Verifies the distinct INVALID_BAGGAGE error for an unavailable optional selection."
     },
     {
       "id": "AI-UAT-008",
-      "scenario": "Booking with invalid seat",
+      "scenario": "Reject a booking with an unavailable seat",
       "category": "Booking - Negative",
       "priority": "Medium",
-      "description": "Submit a booking request with a valid passenger and fare but an unavailable seat. Verify the documented invalid seat error is returned.",
+      "description": "Verify that the API rejects a booking when the selected seat is unavailable.",
       "endpoint": "/booking",
       "method": "POST",
       "request": {
@@ -867,17 +924,19 @@
         "seat": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_SEAT"
       },
       "selection_priority": "Medium",
-      "selection_reason": "Verifies the distinct INVALID_SEAT validation for an unavailable seat."
+      "selection_reason": "Verifies the distinct INVALID_SEAT error for an unavailable optional selection."
     },
     {
       "id": "AI-UAT-009",
-      "scenario": "Successful flight search",
+      "scenario": "Search for flights on a route with results",
       "category": "Flight Search - Positive",
-      "priority": "Critical",
-      "description": "Search for flights on the documented valid route and verify the response identifies the route and contains at least one available flight.",
+      "priority": "High",
+      "description": "Verify that a search for the documented valid route returns success and a non-empty results array.",
       "endpoint": "/search",
       "method": "GET",
       "request": {
@@ -891,14 +950,14 @@
         "results": "non-empty array"
       },
       "selection_priority": "High",
-      "selection_reason": "Validates the successful search response, route fields, and presence of available flights."
+      "selection_reason": "Validates a successful flight search and confirms the route and non-empty results contract."
     },
     {
       "id": "AI-UAT-010",
-      "scenario": "Flight search with no results",
+      "scenario": "Search for flights on a route with no results",
       "category": "Flight Search - Negative",
-      "priority": "High",
-      "description": "Search the documented no-flight route and verify the API returns the NO_FLIGHTS error and a non-null message.",
+      "priority": "Medium",
+      "description": "Verify that a search to the documented no-flight destination returns the NO_FLIGHTS error and a message field.",
       "endpoint": "/search",
       "method": "GET",
       "request": {
@@ -910,8 +969,8 @@
         "error_code": "NO_FLIGHTS",
         "message": "present"
       },
-      "selection_priority": "High",
-      "selection_reason": "Covers the no-flights path and verifies the documented error code and message."
+      "selection_priority": "Medium",
+      "selection_reason": "Covers the no-flights search response, including its error code and message."
     }
   ],
   "execution_results": [
@@ -926,6 +985,7 @@
         "fare": "ECONOMY"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -941,7 +1001,12 @@
         "baggage": null,
         "seat": null
       },
-      "execution_time_seconds": 0.08
+      "execution_time_seconds": 0.09,
+      "id": "AI-UAT-001",
+      "scenario_id": "AI-UAT-001",
+      "scenario": "Create a booking with passenger and fare",
+      "priority": "Critical",
+      "category": "Booking - Positive"
     },
     {
       "status": "PASS",
@@ -955,6 +1020,7 @@
         "baggage": "20KG"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -971,7 +1037,12 @@
         "baggage": "20KG",
         "seat": null
       },
-      "execution_time_seconds": 0.01
+      "execution_time_seconds": 0.02,
+      "id": "AI-UAT-002",
+      "scenario_id": "AI-UAT-002",
+      "scenario": "Create a booking with baggage",
+      "priority": "High",
+      "category": "Booking - Positive"
     },
     {
       "status": "PASS",
@@ -985,6 +1056,7 @@
         "seat": "12A"
       },
       "expected": {
+        "http_status": 200,
         "success": true,
         "booking_status": "CONFIRMED",
         "pnr": "present",
@@ -1001,7 +1073,12 @@
         "baggage": null,
         "seat": "12A"
       },
-      "execution_time_seconds": 0.03
+      "execution_time_seconds": 0.04,
+      "id": "AI-UAT-003",
+      "scenario_id": "AI-UAT-003",
+      "scenario": "Create a booking with a seat",
+      "priority": "High",
+      "category": "Booking - Positive"
     },
     {
       "status": "PASS",
@@ -1013,6 +1090,8 @@
         "fare": "ECONOMY"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_PAX"
       },
       "actual": {
@@ -1020,7 +1099,12 @@
         "error_code": "INVALID_PAX",
         "message": "Passenger name is required"
       },
-      "execution_time_seconds": 0.02
+      "execution_time_seconds": 0.05,
+      "id": "AI-UAT-004",
+      "scenario_id": "AI-UAT-004",
+      "scenario": "Reject a booking with a missing passenger name",
+      "priority": "High",
+      "category": "Booking - Negative"
     },
     {
       "status": "PASS",
@@ -1033,6 +1117,8 @@
         "fare": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_FARE"
       },
       "actual": {
@@ -1040,7 +1126,12 @@
         "error_code": "INVALID_FARE",
         "message": "The selected fare is no longer available"
       },
-      "execution_time_seconds": 0.02
+      "execution_time_seconds": 0.04,
+      "id": "AI-UAT-006",
+      "scenario_id": "AI-UAT-006",
+      "scenario": "Reject a booking with an unavailable fare",
+      "priority": "High",
+      "category": "Booking - Negative"
     },
     {
       "status": "PASS",
@@ -1054,6 +1145,8 @@
         "baggage": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_BAGGAGE"
       },
       "actual": {
@@ -1061,7 +1154,12 @@
         "error_code": "INVALID_BAGGAGE",
         "message": "The selected baggage option is unavailable"
       },
-      "execution_time_seconds": 0.02
+      "execution_time_seconds": 0.03,
+      "id": "AI-UAT-007",
+      "scenario_id": "AI-UAT-007",
+      "scenario": "Reject a booking with unavailable baggage",
+      "priority": "Medium",
+      "category": "Booking - Negative"
     },
     {
       "status": "PASS",
@@ -1075,6 +1173,8 @@
         "seat": "INVALID"
       },
       "expected": {
+        "http_status": 200,
+        "success": false,
         "error_code": "INVALID_SEAT"
       },
       "actual": {
@@ -1082,7 +1182,12 @@
         "error_code": "INVALID_SEAT",
         "message": "The selected seat is unavailable"
       },
-      "execution_time_seconds": 0.02
+      "execution_time_seconds": 0.03,
+      "id": "AI-UAT-008",
+      "scenario_id": "AI-UAT-008",
+      "scenario": "Reject a booking with an unavailable seat",
+      "priority": "Medium",
+      "category": "Booking - Negative"
     },
     {
       "status": "PASS",
@@ -1119,7 +1224,12 @@
           }
         ]
       },
-      "execution_time_seconds": 0.02
+      "execution_time_seconds": 0.02,
+      "id": "AI-UAT-009",
+      "scenario_id": "AI-UAT-009",
+      "scenario": "Search for flights on a route with results",
+      "priority": "High",
+      "category": "Flight Search - Positive"
     },
     {
       "status": "PASS",
@@ -1141,12 +1251,17 @@
         "error_code": "NO_FLIGHTS",
         "message": "No flights available for this route"
       },
-      "execution_time_seconds": 0.02
+      "execution_time_seconds": 0.01,
+      "id": "AI-UAT-010",
+      "scenario_id": "AI-UAT-010",
+      "scenario": "Search for flights on a route with no results",
+      "priority": "Medium",
+      "category": "Flight Search - Negative"
     }
   ],
   "uat_evidence": {
-    "run_id": "UAT-20261009-124017",
-    "captured_at": "2026-10-09T12:40:17.115436",
+    "run_id": "UAT-20261012-133311",
+    "captured_at": "2026-10-12T13:33:11.603837",
     "total_evidence_records": 9,
     "passed": 9,
     "failed": 0,
@@ -1156,7 +1271,7 @@
       {
         "evidence_id": "EVID-0001",
         "test_id": "AI-UAT-001",
-        "scenario": "Successful booking",
+        "scenario": "Create a booking with passenger and fare",
         "category": "Booking - Positive",
         "priority": "Critical",
         "endpoint": "/booking",
@@ -1166,6 +1281,7 @@
           "fare": "ECONOMY"
         },
         "expected": {
+          "http_status": 200,
           "success": true,
           "booking_status": "CONFIRMED",
           "pnr": "present",
@@ -1184,7 +1300,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.08,
+        "execution_time_seconds": 0.09,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1193,12 +1309,12 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115307"
+        "captured_at": "2026-10-12T13:33:11.603616"
       },
       {
         "evidence_id": "EVID-0002",
         "test_id": "AI-UAT-002",
-        "scenario": "Booking with baggage",
+        "scenario": "Create a booking with baggage",
         "category": "Booking - Positive",
         "priority": "High",
         "endpoint": "/booking",
@@ -1209,6 +1325,7 @@
           "baggage": "20KG"
         },
         "expected": {
+          "http_status": 200,
           "success": true,
           "booking_status": "CONFIRMED",
           "pnr": "present",
@@ -1228,7 +1345,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.01,
+        "execution_time_seconds": 0.02,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1237,12 +1354,12 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115332"
+        "captured_at": "2026-10-12T13:33:11.603637"
       },
       {
         "evidence_id": "EVID-0003",
         "test_id": "AI-UAT-003",
-        "scenario": "Booking with seat",
+        "scenario": "Create a booking with a seat",
         "category": "Booking - Positive",
         "priority": "High",
         "endpoint": "/booking",
@@ -1253,6 +1370,7 @@
           "seat": "12A"
         },
         "expected": {
+          "http_status": 200,
           "success": true,
           "booking_status": "CONFIRMED",
           "pnr": "present",
@@ -1272,7 +1390,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.03,
+        "execution_time_seconds": 0.04,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1281,12 +1399,12 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115344"
+        "captured_at": "2026-10-12T13:33:11.603647"
       },
       {
         "evidence_id": "EVID-0004",
         "test_id": "AI-UAT-004",
-        "scenario": "Booking with missing passenger name",
+        "scenario": "Reject a booking with a missing passenger name",
         "category": "Booking - Negative",
         "priority": "High",
         "endpoint": "/booking",
@@ -1295,6 +1413,8 @@
           "fare": "ECONOMY"
         },
         "expected": {
+          "http_status": 200,
+          "success": false,
           "error_code": "INVALID_PAX"
         },
         "actual": {
@@ -1305,7 +1425,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.02,
+        "execution_time_seconds": 0.05,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1314,12 +1434,12 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115353"
+        "captured_at": "2026-10-12T13:33:11.603654"
       },
       {
         "evidence_id": "EVID-0005",
         "test_id": "AI-UAT-006",
-        "scenario": "Booking with invalid fare",
+        "scenario": "Reject a booking with an unavailable fare",
         "category": "Booking - Negative",
         "priority": "High",
         "endpoint": "/booking",
@@ -1329,6 +1449,8 @@
           "fare": "INVALID"
         },
         "expected": {
+          "http_status": 200,
+          "success": false,
           "error_code": "INVALID_FARE"
         },
         "actual": {
@@ -1339,7 +1461,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.02,
+        "execution_time_seconds": 0.04,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1348,12 +1470,12 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115361"
+        "captured_at": "2026-10-12T13:33:11.603661"
       },
       {
         "evidence_id": "EVID-0006",
         "test_id": "AI-UAT-007",
-        "scenario": "Booking with invalid baggage",
+        "scenario": "Reject a booking with unavailable baggage",
         "category": "Booking - Negative",
         "priority": "Medium",
         "endpoint": "/booking",
@@ -1364,6 +1486,8 @@
           "baggage": "INVALID"
         },
         "expected": {
+          "http_status": 200,
+          "success": false,
           "error_code": "INVALID_BAGGAGE"
         },
         "actual": {
@@ -1374,7 +1498,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.02,
+        "execution_time_seconds": 0.03,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1383,12 +1507,12 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115369"
+        "captured_at": "2026-10-12T13:33:11.603731"
       },
       {
         "evidence_id": "EVID-0007",
         "test_id": "AI-UAT-008",
-        "scenario": "Booking with invalid seat",
+        "scenario": "Reject a booking with an unavailable seat",
         "category": "Booking - Negative",
         "priority": "Medium",
         "endpoint": "/booking",
@@ -1399,6 +1523,8 @@
           "seat": "INVALID"
         },
         "expected": {
+          "http_status": 200,
+          "success": false,
           "error_code": "INVALID_SEAT"
         },
         "actual": {
@@ -1409,7 +1535,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.02,
+        "execution_time_seconds": 0.03,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1418,14 +1544,14 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115376"
+        "captured_at": "2026-10-12T13:33:11.603776"
       },
       {
         "evidence_id": "EVID-0008",
         "test_id": "AI-UAT-009",
-        "scenario": "Successful flight search",
+        "scenario": "Search for flights on a route with results",
         "category": "Flight Search - Positive",
-        "priority": "Critical",
+        "priority": "High",
         "endpoint": "/search",
         "method": "GET",
         "request": {
@@ -1469,14 +1595,14 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115384"
+        "captured_at": "2026-10-12T13:33:11.603787"
       },
       {
         "evidence_id": "EVID-0009",
         "test_id": "AI-UAT-010",
-        "scenario": "Flight search with no results",
+        "scenario": "Search for flights on a route with no results",
         "category": "Flight Search - Negative",
-        "priority": "High",
+        "priority": "Medium",
         "endpoint": "/search",
         "method": "GET",
         "request": {
@@ -1496,7 +1622,7 @@
         "status_code": 200,
         "initial_status": "PASS",
         "final_status": "PASS",
-        "execution_time_seconds": 0.02,
+        "execution_time_seconds": 0.01,
         "failure": null,
         "error_type": null,
         "failure_classification": {},
@@ -1505,7 +1631,7 @@
           "performed": false
         },
         "retry_assessment": null,
-        "captured_at": "2026-10-09T12:40:17.115397"
+        "captured_at": "2026-10-12T13:33:11.603794"
       }
     ]
   },
@@ -1526,7 +1652,7 @@
       "unresolved_failures": 0,
       "coverage_percentage": 100.0,
       "coverage_gaps": 0,
-      "not_specified_requirements": 1,
+      "not_specified_requirements": 0,
       "retries": 0,
       "pass_after_retry": 0,
       "orchestration_consistent": true,
@@ -1556,7 +1682,7 @@
         "critical_failures": 0,
         "unresolved_failures": 0,
         "test_plan_objective": "Validate the documented API functionality, business rules, response contracts, and negative scenarios before UAT sign-off.",
-        "generated_at": "2026-10-09T12:40:17.118736"
+        "generated_at": "2026-10-12T13:33:11.606321"
       },
       "signoff_statement": {
         "statement": "Based on the completed UAT execution, documented coverage, failure analysis and release-readiness assessment, the solution is READY for UAT sign-off and release approval.",

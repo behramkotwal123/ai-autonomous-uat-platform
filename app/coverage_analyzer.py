@@ -362,6 +362,20 @@ def requirement_is_covered(
             ):
                 return True
 
+        elif requirement_id == "HTTP_STATUS":
+
+            status_keys = {
+                "status_code",
+                "http_status",
+                "expected_status_code",
+            }
+
+            if any(
+                key in expected and expected[key] is not None
+                for key in status_keys
+            ):
+                return True
+
         # ----------------------------------------------------
         # RESPONSE FIELDS
         # ----------------------------------------------------
@@ -425,20 +439,7 @@ def calculate_coverage(
         # HTTP STATUS
         # ----------------------------------------------------
 
-        if requirement_id == "HTTP_STATUS":
-
-            results.append({
-                "requirement_id": requirement_id,
-                "description": description,
-                "status": "NOT_SPECIFIED",
-                "covered": False,
-                "reason": (
-                    "API documentation does not define "
-                    "expected HTTP status codes."
-                ),
-            })
-
-            continue
+        
 
         # ----------------------------------------------------
         # NORMAL REQUIREMENT

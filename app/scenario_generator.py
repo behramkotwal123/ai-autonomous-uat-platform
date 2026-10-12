@@ -89,6 +89,17 @@ EXPECTED RESPONSE RULES
 
 IMPORTANT:
 
+The "expected" value must be a FLAT JSON object.
+
+IMPORTANT:
+- Put documented response fields directly inside "expected".
+- NEVER wrap expected response fields inside a "body" object.
+- NEVER use "body" as a key inside "expected".
+- Use documented fields such as "success", "booking_status",
+  "pnr", "passenger_name", "fare", "error_code", and "message"
+  directly at the top level.
+- Keep "http_status" at the top level if it is specified.
+
 Do not invent exact response values when the API
 documentation does not define those values.
 

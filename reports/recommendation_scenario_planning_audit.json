@@ -1,8 +1,8 @@
 {
   "AI-REC-001": {
-    "recommendation_id": "REC-FLIGHT-SEARCH-001",
+    "recommendation_id": "REC-FLIGHT-SEARCH-002",
     "scenario_id": "AI-REC-001",
     "status": "PLANNED",
-    "timestamp": "2026-10-07T16:09:13"
+    "timestamp": "2026-10-12T11:08:29"
   }
 }

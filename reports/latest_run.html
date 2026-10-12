@@ -11,7 +11,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>AI UAT Platform — UAT Sign-off Report</title>
+<title>AI UAT Platform â€” UAT Sign-off Report</title>
 
 <style>
 
@@ -88,12 +88,12 @@ UAT Execution &amp; Release Sign-off Report
 
 <p class="small">
 <strong>Generated:</strong>
-2026-10-09T12:40:17.121583
+2026-10-12T13:33:11.607758
 </p>
 
 <p class="small">
 <strong>Run ID:</strong>
-UAT-20261009-124017
+UAT-20261012-133311
 </p>
 
 <div class="card">
@@ -173,7 +173,7 @@ Based on the completed UAT execution, documented coverage, failure analysis and 
 
 <p>
 <strong>Covered:</strong>
-11
+12
 </p>
 
 <p>
@@ -183,7 +183,7 @@ Based on the completed UAT execution, documented coverage, failure analysis and 
 
 <p>
 <strong>Not specified:</strong>
-1
+0
 </p>
 
 <p>
@@ -244,7 +244,7 @@ Based on the completed UAT execution, documented coverage, failure analysis and 
 
 <p>
 <strong>Plan risk:</strong>
-Low
+Medium
 </p>
 
 </div>
@@ -305,63 +305,63 @@ SEQUENTIAL
 
         <tr>
             <td>AI-UAT-001</td>
-            <td>Successful booking</td>
+            <td>Create a booking with passenger and fare</td>
             <td>/booking</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-002</td>
-            <td>Booking with baggage</td>
+            <td>Create a booking with baggage</td>
             <td>/booking</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-003</td>
-            <td>Booking with seat</td>
+            <td>Create a booking with a seat</td>
             <td>/booking</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-004</td>
-            <td>Booking with missing passenger name</td>
+            <td>Reject a booking with a missing passenger name</td>
             <td>/booking</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-006</td>
-            <td>Booking with invalid fare</td>
+            <td>Reject a booking with an unavailable fare</td>
             <td>/booking</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-007</td>
-            <td>Booking with invalid baggage</td>
+            <td>Reject a booking with unavailable baggage</td>
             <td>/booking</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-008</td>
-            <td>Booking with invalid seat</td>
+            <td>Reject a booking with an unavailable seat</td>
             <td>/booking</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-009</td>
-            <td>Successful flight search</td>
+            <td>Search for flights on a route with results</td>
             <td>/search</td>
             <td>PASS</td>
         </tr>
         
         <tr>
             <td>AI-UAT-010</td>
-            <td>Flight search with no results</td>
+            <td>Search for flights on a route with no results</td>
             <td>/search</td>
             <td>PASS</td>
         </tr>
@@ -375,7 +375,7 @@ SEQUENTIAL
 
 <p>
 <strong>Run ID:</strong>
-UAT-20261009-124017
+UAT-20261012-133311
 </p>
 
 <p>
@@ -418,7 +418,7 @@ UAT-20261009-124017
             <td>EVID-0001</td>
             <td>
                 <strong>AI-UAT-001</strong><br>
-                Successful booking
+                Create a booking with passenger and fare
             </td>
             <td>
                 POST<br>
@@ -428,7 +428,7 @@ UAT-20261009-124017
                 <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;}</pre>
             </td>
             <td>
-                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;}</pre>
+                <pre>{&#x27;http_status&#x27;: 200, &#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;}</pre>
             </td>
             <td>
                 <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;DEMO123&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: None, &#x27;seat&#x27;: None}</pre>
@@ -448,7 +448,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115307
+                2026-10-12T13:33:11.603616
             </td>
         </tr>
         
@@ -456,7 +456,7 @@ UAT-20261009-124017
             <td>EVID-0002</td>
             <td>
                 <strong>AI-UAT-002</strong><br>
-                Booking with baggage
+                Create a booking with baggage
             </td>
             <td>
                 POST<br>
@@ -466,7 +466,7 @@ UAT-20261009-124017
                 <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;20KG&#x27;}</pre>
             </td>
             <td>
-                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;20KG&#x27;}</pre>
+                <pre>{&#x27;http_status&#x27;: 200, &#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;20KG&#x27;}</pre>
             </td>
             <td>
                 <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;DEMO123&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;20KG&#x27;, &#x27;seat&#x27;: None}</pre>
@@ -486,7 +486,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115332
+                2026-10-12T13:33:11.603637
             </td>
         </tr>
         
@@ -494,7 +494,7 @@ UAT-20261009-124017
             <td>EVID-0003</td>
             <td>
                 <strong>AI-UAT-003</strong><br>
-                Booking with seat
+                Create a booking with a seat
             </td>
             <td>
                 POST<br>
@@ -504,7 +504,7 @@ UAT-20261009-124017
                 <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;seat&#x27;: &#x27;12A&#x27;}</pre>
             </td>
             <td>
-                <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;seat&#x27;: &#x27;12A&#x27;}</pre>
+                <pre>{&#x27;http_status&#x27;: 200, &#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;present&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;seat&#x27;: &#x27;12A&#x27;}</pre>
             </td>
             <td>
                 <pre>{&#x27;success&#x27;: True, &#x27;booking_status&#x27;: &#x27;CONFIRMED&#x27;, &#x27;pnr&#x27;: &#x27;DEMO123&#x27;, &#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: None, &#x27;seat&#x27;: &#x27;12A&#x27;}</pre>
@@ -524,7 +524,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115344
+                2026-10-12T13:33:11.603647
             </td>
         </tr>
         
@@ -532,7 +532,7 @@ UAT-20261009-124017
             <td>EVID-0004</td>
             <td>
                 <strong>AI-UAT-004</strong><br>
-                Booking with missing passenger name
+                Reject a booking with a missing passenger name
             </td>
             <td>
                 POST<br>
@@ -542,7 +542,7 @@ UAT-20261009-124017
                 <pre>{&#x27;fare&#x27;: &#x27;ECONOMY&#x27;}</pre>
             </td>
             <td>
-                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_PAX&#x27;}</pre>
+                <pre>{&#x27;http_status&#x27;: 200, &#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_PAX&#x27;}</pre>
             </td>
             <td>
                 <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_PAX&#x27;, &#x27;message&#x27;: &#x27;Passenger name is required&#x27;}</pre>
@@ -562,7 +562,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115353
+                2026-10-12T13:33:11.603654
             </td>
         </tr>
         
@@ -570,7 +570,7 @@ UAT-20261009-124017
             <td>EVID-0005</td>
             <td>
                 <strong>AI-UAT-006</strong><br>
-                Booking with invalid fare
+                Reject a booking with an unavailable fare
             </td>
             <td>
                 POST<br>
@@ -580,7 +580,7 @@ UAT-20261009-124017
                 <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;INVALID&#x27;}</pre>
             </td>
             <td>
-                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_FARE&#x27;}</pre>
+                <pre>{&#x27;http_status&#x27;: 200, &#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_FARE&#x27;}</pre>
             </td>
             <td>
                 <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_FARE&#x27;, &#x27;message&#x27;: &#x27;The selected fare is no longer available&#x27;}</pre>
@@ -600,7 +600,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115361
+                2026-10-12T13:33:11.603661
             </td>
         </tr>
         
@@ -608,7 +608,7 @@ UAT-20261009-124017
             <td>EVID-0006</td>
             <td>
                 <strong>AI-UAT-007</strong><br>
-                Booking with invalid baggage
+                Reject a booking with unavailable baggage
             </td>
             <td>
                 POST<br>
@@ -618,7 +618,7 @@ UAT-20261009-124017
                 <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;baggage&#x27;: &#x27;INVALID&#x27;}</pre>
             </td>
             <td>
-                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_BAGGAGE&#x27;}</pre>
+                <pre>{&#x27;http_status&#x27;: 200, &#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_BAGGAGE&#x27;}</pre>
             </td>
             <td>
                 <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_BAGGAGE&#x27;, &#x27;message&#x27;: &#x27;The selected baggage option is unavailable&#x27;}</pre>
@@ -638,7 +638,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115369
+                2026-10-12T13:33:11.603731
             </td>
         </tr>
         
@@ -646,7 +646,7 @@ UAT-20261009-124017
             <td>EVID-0007</td>
             <td>
                 <strong>AI-UAT-008</strong><br>
-                Booking with invalid seat
+                Reject a booking with an unavailable seat
             </td>
             <td>
                 POST<br>
@@ -656,7 +656,7 @@ UAT-20261009-124017
                 <pre>{&#x27;passenger_name&#x27;: &#x27;Behram&#x27;, &#x27;fare&#x27;: &#x27;ECONOMY&#x27;, &#x27;seat&#x27;: &#x27;INVALID&#x27;}</pre>
             </td>
             <td>
-                <pre>{&#x27;error_code&#x27;: &#x27;INVALID_SEAT&#x27;}</pre>
+                <pre>{&#x27;http_status&#x27;: 200, &#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_SEAT&#x27;}</pre>
             </td>
             <td>
                 <pre>{&#x27;success&#x27;: False, &#x27;error_code&#x27;: &#x27;INVALID_SEAT&#x27;, &#x27;message&#x27;: &#x27;The selected seat is unavailable&#x27;}</pre>
@@ -676,7 +676,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115376
+                2026-10-12T13:33:11.603776
             </td>
         </tr>
         
@@ -684,7 +684,7 @@ UAT-20261009-124017
             <td>EVID-0008</td>
             <td>
                 <strong>AI-UAT-009</strong><br>
-                Successful flight search
+                Search for flights on a route with results
             </td>
             <td>
                 GET<br>
@@ -714,7 +714,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115384
+                2026-10-12T13:33:11.603787
             </td>
         </tr>
         
@@ -722,7 +722,7 @@ UAT-20261009-124017
             <td>EVID-0009</td>
             <td>
                 <strong>AI-UAT-010</strong><br>
-                Flight search with no results
+                Search for flights on a route with no results
             </td>
             <td>
                 GET<br>
@@ -752,7 +752,7 @@ UAT-20261009-124017
                 False
             </td>
             <td>
-                2026-10-09T12:40:17.115397
+                2026-10-12T13:33:11.603794
             </td>
         </tr>
         
@@ -771,7 +771,7 @@ PASS
 
 <p class="small">
 <strong>Report generated:</strong>
-2026-10-09T12:40:17.121583
+2026-10-12T13:33:11.607758
 </p>
 
 </body>

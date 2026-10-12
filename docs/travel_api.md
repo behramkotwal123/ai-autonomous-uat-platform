@@ -37,9 +37,23 @@ A successful booking returns:
 
 Returned when `passenger_name` is missing or empty.
 
+
 #### INVALID_FARE
 
-Returned when the selected fare is unavailable.
+Returned when the `fare` field is missing, empty, or the selected fare is unavailable.
+
+Example response when the fare is missing:
+
+- `success: false`
+- `error_code: INVALID_FARE`
+- `message: Fare is required`
+
+Example response when the selected fare is unavailable:
+
+- `success: false`
+- `error_code: INVALID_FARE`
+- `message: The selected fare is no longer available`
+
 
 #### INVALID_BAGGAGE
 
@@ -49,6 +63,14 @@ Returned when the selected baggage option is unavailable.
 
 Returned when the selected seat is unavailable.
 
+
+### HTTP Status Codes
+
+The current demo API returns HTTP `200 OK` for booking validation responses, including unsuccessful bookings represented by `success: false`.
+
+UAT scenarios should validate both the HTTP status code and the response body.
+
+
 ---
 
 # 2. Flight Search API
@@ -56,6 +78,17 @@ Returned when the selected seat is unavailable.
 ### Endpoint
 
 `GET /search`
+
+### Cabin validation
+
+The `GET /search` endpoint accepts an optional `cabin` query parameter.
+
+- **Default:** `ECONOMY`
+- **Supported values:** `ECONOMY`, `BUSINESS`, `FIRST`
+- Cabin values are case-insensitive.
+- Unsupported values return `success: false`, error code `INVALID_CABIN`, and a message listing the supported cabin values.
+- The demo API returns HTTP 200 for this validation response, consistent with its existing validation-response behavior.
+- Requests with destination `XYZ` continue to return the existing `NO_FLIGHTS` error when the cabin value is valid.
 
 ### Purpose
 

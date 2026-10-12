@@ -394,12 +394,16 @@ def validate_scenario(scenario):
     # DOCUMENTED ENDPOINT
     # -----------------------------------------
 
-    if endpoint not in documentation:
+    
+    documented_endpoint = endpoint.split("?", 1)[0]
+
+    if documented_endpoint not in documentation:
 
         errors.append(
             f"Endpoint '{endpoint}' "
             f"is not documented"
         )
+
 
     # -----------------------------------------
     # REQUEST FIELDS
@@ -452,6 +456,11 @@ def validate_scenario(scenario):
     }
 
     if isinstance(expected, dict):
+        if "body" in expected:
+            errors.append(
+                "Expected response fields must be flat; "
+                "do not wrap them inside 'body'"
+            )
 
         for field in expected:
 

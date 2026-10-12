@@ -1,32 +1,32 @@
-"""
-AI UAT Platform — End-to-End Scenario Pipeline
+﻿"""
+AI UAT Platform â€” End-to-End Scenario Pipeline
 
 Pipeline:
 
 Generate
-    ↓
+    â†“
 Validate
-    ↓
+    â†“
 Coverage Analysis
-    ↓
+    â†“
 Gap Test Generation
-    ↓
+    â†“
 Final Coverage
-    ↓
+    â†“
 Autonomous Test Selection
-    ↓
-7A — UAT Test Plan
-    ↓
-7B — UAT Orchestrator
-    ↓
+    â†“
+7A â€” UAT Test Plan
+    â†“
+7B â€” UAT Orchestrator
+    â†“
 Execute
-    ↓
+    â†“
 Diagnose / Retry
-    ↓
-8A — Release Readiness
-    ↓
-8B — UAT Executive Sign-off
-    ↓
+    â†“
+8A â€” Release Readiness
+    â†“
+8B â€” UAT Executive Sign-off
+    â†“
 JSON + HTML Reports
 """
 
@@ -308,6 +308,7 @@ def enrich_selected_scenarios(
 # EXECUTION HELPERS
 # ============================================================
 
+
 def enrich_execution_results(
     execution_results,
     selected_scenarios,
@@ -320,91 +321,70 @@ def enrich_execution_results(
     scenario_lookup = {}
 
     for scenario in selected_scenarios:
-
-        if not isinstance(
-            scenario,
-            dict
-        ):
+        if not isinstance(scenario, dict):
             continue
 
-        scenario_id = get_scenario_id(
-            scenario
-        )
+        scenario_id = get_scenario_id(scenario)
 
         if scenario_id:
-            scenario_lookup[
-                scenario_id
-            ] = scenario
+            scenario_lookup[scenario_id] = scenario
 
     enriched_results = []
 
-    for result in execution_results:
-
-        if not isinstance(
-            result,
-            dict
-        ):
+    for index, result in enumerate(execution_results):
+        if not isinstance(result, dict):
             continue
 
         enriched = dict(result)
 
         scenario_id = (
             result.get("id")
-            or result.get(
-                "scenario_id"
-            )
+            or result.get("scenario_id")
         )
 
-        scenario = scenario_lookup.get(
-            scenario_id
-        )
+        scenario = scenario_lookup.get(scenario_id)
+
+        # Fall back to execution order when the runner
+        # does not include a scenario ID.
+        if scenario is None and index < len(selected_scenarios):
+            candidate = selected_scenarios[index]
+
+            if isinstance(candidate, dict):
+                scenario = candidate
 
         if scenario:
+            scenario_id = get_scenario_id(scenario)
 
-            enriched.setdefault(
-                "scenario",
-                get_scenario_name(
-                    scenario
-                )
-            )
+            if scenario_id:
+                enriched["id"] = scenario_id
+                enriched["scenario_id"] = scenario_id
+
+            enriched["scenario"] = get_scenario_name(scenario)
 
             enriched.setdefault(
                 "priority",
-                scenario.get(
-                    "priority",
-                    ""
-                )
+                scenario.get("priority", ""),
             )
 
             enriched.setdefault(
                 "category",
-                scenario.get(
-                    "category",
-                    ""
-                )
+                scenario.get("category", ""),
             )
 
             enriched.setdefault(
                 "endpoint",
-                scenario.get(
-                    "endpoint",
-                    ""
-                )
+                scenario.get("endpoint", ""),
             )
 
             enriched.setdefault(
                 "method",
-                scenario.get(
-                    "method",
-                    ""
-                )
+                scenario.get("method", ""),
             )
 
-        enriched_results.append(
-            enriched
-        )
+        enriched_results.append(enriched)
 
     return enriched_results
+
 
 
 def calculate_execution_summary(
@@ -682,7 +662,7 @@ def build_html_report(
         )
 
     # --------------------------------------------------------
-    # PHASE 9C — UAT EVIDENCE & AUDIT TRAIL
+    # PHASE 9C â€” UAT EVIDENCE & AUDIT TRAIL
     # --------------------------------------------------------
 
     uat_evidence = report.get(
@@ -964,7 +944,7 @@ def build_html_report(
 <head>
 <meta charset="UTF-8">
 
-<title>AI UAT Platform — UAT Sign-off Report</title>
+<title>AI UAT Platform â€” UAT Sign-off Report</title>
 
 <style>
 
@@ -1428,7 +1408,7 @@ def main():
     print("=" * 60)
 
     # --------------------------------------------------------
-    # PHASE 1 — GENERATE
+    # PHASE 1 â€” GENERATE
     # --------------------------------------------------------
 
     print()
@@ -1447,7 +1427,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 2 — VALIDATE
+    # PHASE 2 â€” VALIDATE
     # --------------------------------------------------------
 
     validation_results = validate_scenarios(
@@ -1475,7 +1455,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 5 — INITIAL COVERAGE
+    # PHASE 5 â€” INITIAL COVERAGE
     # --------------------------------------------------------
 
     initial_coverage_analysis = (
@@ -1514,7 +1494,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 6 — GAP TEST GENERATION
+    # PHASE 6 â€” GAP TEST GENERATION
     # --------------------------------------------------------
 
     gap_generation = {
@@ -1671,7 +1651,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 7A — TEST PLAN
+    # PHASE 7A â€” TEST PLAN
     # --------------------------------------------------------
 
     print()
@@ -1708,7 +1688,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 7B — ORCHESTRATION
+    # PHASE 7B â€” ORCHESTRATION
     # --------------------------------------------------------
 
     print()
@@ -1776,7 +1756,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 9A — UAT EVIDENCE
+    # PHASE 9A â€” UAT EVIDENCE
     # --------------------------------------------------------
 
     uat_evidence = build_audit_trail(
@@ -1789,7 +1769,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 8A — RELEASE READINESS
+    # PHASE 8A â€” RELEASE READINESS
     # --------------------------------------------------------
 
     print()
@@ -1824,7 +1804,7 @@ def main():
     )
 
     # --------------------------------------------------------
-    # PHASE 8B — EXECUTIVE SIGN-OFF
+    # PHASE 8B â€” EXECUTIVE SIGN-OFF
     # --------------------------------------------------------
 
     print()
@@ -2047,7 +2027,7 @@ def main():
 
 
     # --------------------------------------------------------
-    # SAVE RUN HISTORY — PHASE 11A
+    # SAVE RUN HISTORY â€” PHASE 11A
     # --------------------------------------------------------
 
     history_timestamp = end_time.strftime(
@@ -2313,7 +2293,7 @@ def main():
 
     print(
         f"Unresolved failures  : "
-        f"{len(readiness.get('unresolved_failures', []) or [])}"
+        f"{readiness.get('unresolved_failures', 0)}"
     )
 
     print(

@@ -1,4 +1,7 @@
+from http import client
+
 from fastapi import FastAPI
+from httpcore2 import request
 
 
 app = FastAPI(title="Demo Travel API")
@@ -34,12 +37,20 @@ def create_booking(booking: dict):
         }
 
 
+    
+   
     # ---------------------------------------------
     # Validate fare
     # ---------------------------------------------
 
-    if fare == "INVALID":
+    if not fare:
+        return {
+            "success": False,
+            "error_code": "INVALID_FARE",
+            "message": "Fare is required"
+        }
 
+    if fare == "INVALID":
         return {
             "success": False,
             "error_code": "INVALID_FARE",
@@ -90,11 +101,53 @@ def create_booking(booking: dict):
 # FLIGHT SEARCH
 # --------------------------------------------------
 
+
 @app.get("/search")
 def search_flights(
     origin: str,
-    destination: str
+    destination: str,
+    cabin: str = "ECONOMY",
 ):
+    supported_cabins = {"ECONOMY", "BUSINESS", "FIRST"}
+
+    if cabin.upper() not in supported_cabins:
+        return {
+            "success": False,
+            "error_code": "INVALID_CABIN",
+            "message": (
+                "Unsupported cabin configuration. "
+                "Use ECONOMY, BUSINESS, or FIRST."
+            ),
+        }
+
+    if destination == "XYZ":
+        return {
+            "success": False,
+            "error_code": "NO_FLIGHTS",
+            "message": "No flights available for this route",
+        }
+
+    return {
+        "success": True,
+        "origin": origin,
+        "destination": destination,
+        "cabin": cabin.upper(),
+        "results": [
+            {
+                "flight_number": "AI101",
+                "airline": "Air India",
+                "departure": "08:00",
+                "arrival": "10:30",
+            },
+            {
+                "flight_number": "EK501",
+                "airline": "Emirates",
+                "departure": "10:15",
+                "arrival": "12:45",
+            },
+        ],
+    }
+
 
     # --------------------------------------------------
     # NO FLIGHTS AVAILABLE
